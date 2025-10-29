@@ -28,8 +28,8 @@ import viewmodels.implicits._
 
 object TransactionTypeSummary  {
 
-  def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
-    answers.get(TransactionTypePage).map {
+  def row(answers: Option[UserAnswers])(implicit messages: Messages): Option[SummaryListRow] =
+    answers.flatMap(_.get(TransactionTypePage)).map {
       answer =>
 
         val value = ValueViewModel(

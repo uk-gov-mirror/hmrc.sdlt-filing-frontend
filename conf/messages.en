@@ -12,6 +12,8 @@ site.signIn = Sign in
 site.govuk = GOV.UK
 site.save.continue = Save and Continue
 
+app.title = Stamp Taxes Online
+
 date.day = Day
 date.month = Month
 date.year = Year
@@ -32,7 +34,7 @@ index.title = sdlt-filing-frontend
 index.heading = sdlt-filing-frontend
 index.guidance = Welcome to your new frontend. Please see the README file for a guide to getting started.
 
-checkYourAnswers.title = Check your answers
+checkYourAnswers.title = Check your answers – Preliminary-questions
 checkYourAnswers.heading = Check your answers
 
 journeyRecovery.continue.title = Sorry, there is a problem with the service
@@ -96,6 +98,35 @@ transactionType.otherTransaction = Other transaction type
 transactionType.checkYourAnswersLabel = Transaction type
 transactionType.error.required = Select the option that best describes your transaction
 transactionType.change.hidden = Change transaction type
+# Prelim Questions Address Lookup
+addressLookup.prelimQuestionsAddress.lookupPage.title                   = Find the address of the land or property - Preliminary questions
+addressLookup.prelimQuestionsAddress.lookupPage.heading                 = Find the address of the land or property
+addressLookup.prelimQuestionsAddress.lookupPage.filterLabel             = Property name or number (optional)
+addressLookup.prelimQuestionsAddress.lookupPage.submitLabel             = Continue
+addressLookup.prelimQuestionsAddress.lookupPage.manualAddressLinkText   = Enter the address manually
+
+addressLookup.prelimQuestionsAddress.selectPage.title                   = Choose the address of the land or property - Preliminary questions
+addressLookup.prelimQuestionsAddress.selectPage.heading                 = Choose the address of the land or property
+addressLookup.prelimQuestionsAddress.selectPage.editAddressLinkText     = Enter address manually
+addressLookup.prelimQuestionsAddress.selectPage.submitLabel             = Continue
+
+addressLookup.prelimQuestionsAddress.editPage.title                     = Enter the address of the land or property - Preliminary questions
+addressLookup.prelimQuestionsAddress.editPage.heading                   = Enter the address of the land or property
+addressLookup.prelimQuestionsAddress.editPage.line1Label                = Address line 1
+addressLookup.prelimQuestionsAddress.editPage.line2Label                = Address line 2 (optional)
+addressLookup.prelimQuestionsAddress.editPage.line3Label                = Address line 3 (optional)
+addressLookup.prelimQuestionsAddress.editPage.postcodeLabel             = Postcode
+addressLookup.prelimQuestionsAddress.editPage.countryLabel              = County (optional)
+addressLookup.prelimQuestionsAddress.editPage.submitLabel               = Continue
+
+addressLookup.prelimQuestionsAddress.confirmPage.title                  = Review and confirm the address of the land or property - Preliminary questions
+addressLookup.prelimQuestionsAddress.confirmPage.heading                = Review and confirm the address of the land or property
+addressLookup.prelimQuestionsAddress.confirmPage.changeLinkText         = Edit this address
+addressLookup.prelimQuestionsAddress.confirmPage.submitLabel            = Continue address
+
+addressLookup.prelimQuestionsAddress.countryPicker.title                = Find your home address - Preliminary questions
+addressLookup.prelimQuestionsAddress.countryPicker.heading              = Find your home address
+
 
 beforeStartReturn.title = Before you start a new Stamp Tax return – Preliminary questions
 beforeStartReturn.heading = Before you start a new Stamp Tax return

@@ -28,8 +28,8 @@ import viewmodels.implicits.*
 
 object PurchaserIsIndividualSummary {
 
-  def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
-    answers.get(PurchaserIsIndividualPage).map { answer =>
+  def row(answers: Option[UserAnswers])(implicit messages: Messages): Option[SummaryListRow] =
+    answers.flatMap(_.get(PurchaserIsIndividualPage)).map { answer =>
 
       val answerText = answer.toString match {
         case "option1" => messages("site.yes")

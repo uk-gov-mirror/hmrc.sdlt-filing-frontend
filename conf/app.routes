@@ -12,7 +12,8 @@ GET         /refresh-session                             controllers.KeepAliveCo
 
 GET         /there-is-a-problem                          controllers.JourneyRecoveryController.onPageLoad(continueUrl: Option[RedirectUrl] ?= None)
 
-GET         /check-your-answers                          controllers.CheckYourAnswersController.onPageLoad()
+GET         /preliminary-questions/check-answers                          controllers.CheckYourAnswersController.onPageLoad()
+POST        /preliminary-questions/check-answers                          controllers.CheckYourAnswersController.onSubmit()
 
 GET         /account/sign-out-survey                     controllers.auth.AuthController.signOut()
 GET         /account/sign-out                            controllers.auth.AuthController.signOutNoSurvey()
@@ -38,3 +39,8 @@ GET        /preliminary-questions/transaction-type                       control
 POST       /preliminary-questions/transaction-type                       controllers.TransactionTypeController.onSubmit(mode: Mode = NormalMode)
 GET        /change/preliminary-questions/transaction-type                controllers.TransactionTypeController.onPageLoad(mode: Mode = CheckMode)
 POST       /change/preliminary-questions/transaction-type                controllers.TransactionTypeController.onSubmit(mode: Mode = CheckMode)
+
+
+GET         /preliminary-questions/address                          controllers.preliminary.PrelimAddressController.redirectToAddressLookup(mode: Mode = NormalMode, changeRoute: Option[String] ?= None)
+GET         /preliminary-questions/address-return                   controllers.preliminary.PrelimAddressController.addressLookupCallback(id: String ?= "", mode: Mode = NormalMode)
+GET         /preliminary-questions/address-return/change            controllers.preliminary.PrelimAddressController.addressLookupCallbackChange(id: String ?= "", mode: Mode = NormalMode)

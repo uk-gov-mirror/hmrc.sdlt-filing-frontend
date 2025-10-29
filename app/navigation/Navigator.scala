@@ -27,11 +27,12 @@ import models._
 class Navigator @Inject()() {
 
   private val normalRoutes: Page => UserAnswers => Call = {
-    case PurchaserSurnameOrCompanyNamePage =>
-      _ => controllers.routes.PurchaserIsIndividualController.onPageLoad(NormalMode)
-    case TransactionTypePage => _ => routes.CheckYourAnswersController.onPageLoad()
     case PurchaserIsIndividualPage =>
       _ => controllers.routes.PurchaserSurnameOrCompanyNameController.onPageLoad(NormalMode)
+    case PurchaserSurnameOrCompanyNamePage =>
+      _ => controllers.preliminary.routes.PrelimAddressController.redirectToAddressLookup()
+    case TransactionTypePage => _ => routes.CheckYourAnswersController.onPageLoad()
+
     case _ => _ => routes.IndexController.onPageLoad()
   }
 

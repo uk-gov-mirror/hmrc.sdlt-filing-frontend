@@ -26,6 +26,7 @@ class FrontendAppConfig @Inject() (configuration: Configuration) {
 
   val host: String    = configuration.get[String]("host")
   val appName: String = configuration.get[String]("appName")
+  lazy val sdltStubUrl: String = baseUrl("stamp-duty-land-tax-stub")
 
   protected lazy val rootServices = "microservice.services"
 
@@ -44,6 +45,11 @@ class FrontendAppConfig @Inject() (configuration: Configuration) {
       .getOptional[Int](s"$rootServices.$confKey")
       .getOrElse(defInt)
 
+  def getConfBool(confKey: String): Boolean =
+    configuration
+      .getOptional[Boolean](s"$rootServices.$confKey")
+      .getOrElse(false)
+
   protected def config(serviceName: String): Configuration =
     configuration
       .getOptional[Configuration](s"$rootServices.$serviceName")
@@ -57,7 +63,7 @@ class FrontendAppConfig @Inject() (configuration: Configuration) {
   }
 
   private val contactHost = configuration.get[String]("contact-frontend.host")
-  private val contactFormServiceIdentifier = "sdlt-filing-frontend"
+  val contactFormServiceIdentifier = "sdlt-filing-frontend"
 
   def feedbackUrl(implicit request: RequestHeader): String =
     s"$contactHost/contact/beta-feedback?service=$contactFormServiceIdentifier&backUrl=${host + request.uri}"
@@ -84,4 +90,19 @@ class FrontendAppConfig @Inject() (configuration: Configuration) {
 
   private def throwConfigNotFoundError(key: String) =
     throw new RuntimeException(s"Could not find config key '$key'")
+
+  lazy val addressLookupFrontendUrl: String = baseUrl("address-lookup-frontend")
+  
+  private val stubAddressLookup: Boolean = configuration.get[Boolean]("features.address-lookup-stub")
+  def addressLookupRetrievalUrl(id: String): String = {
+     if (stubAddressLookup) {s"$sdltStubUrl/stamp-duty-land-tax-stub/prelim-questions/address-lookup/confirmed?id=$id"}
+     else {s"$addressLookupFrontendUrl/api/v2/confirmed?id=$id"}
+  }
+
+  def addressLookupJourneyUrl: String =
+    if (stubAddressLookup) {
+      s"$sdltStubUrl/stamp-duty-land-tax-stub/prelim-questions/address-lookup/init"
+    } else { s"$addressLookupFrontendUrl/api/v2/init"}
+    
+    
 }

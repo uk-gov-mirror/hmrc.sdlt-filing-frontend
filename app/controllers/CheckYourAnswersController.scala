@@ -20,26 +20,45 @@ import com.google.inject.Inject
 import controllers.actions.{DataRequiredAction, DataRetrievalAction, IdentifierAction}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
+import repositories.SessionRepository
+import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
-import viewmodels.govuk.summarylist._
+import viewmodels.checkAnswers.{PurchaserIsIndividualSummary, PurchaserSurnameOrCompanyNameSummary, TransactionTypeSummary}
+import viewmodels.govuk.summarylist.*
 import views.html.CheckYourAnswersView
+
+import scala.concurrent.ExecutionContext
 
 class CheckYourAnswersController @Inject()(
                                             override val messagesApi: MessagesApi,
                                             identify: IdentifierAction,
                                             getData: DataRetrievalAction,
                                             requireData: DataRequiredAction,
+                                            sessionRepository: SessionRepository,
                                             val controllerComponents: MessagesControllerComponents,
                                             view: CheckYourAnswersView
-                                          ) extends FrontendBaseController with I18nSupport {
+                                          )(implicit ex: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
-  def onPageLoad(): Action[AnyContent] = (identify andThen getData andThen requireData) {
+  def onPageLoad(): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
 
-      val list = SummaryListViewModel(
-        rows = Seq.empty
-      )
+      for {
+        result <- sessionRepository.get(request.userAnswers.id)
+      } yield {
+        val summaryList = SummaryListViewModel(
+          rows = Seq(
+            PurchaserIsIndividualSummary.row(result),
+            PurchaserSurnameOrCompanyNameSummary.row(result),
+            TransactionTypeSummary.row(result)
+          ).flatten
+        )
 
-      Ok(view(list))
+        Ok(view(summaryList))
+      }
+  }
+
+  def onSubmit(): Action[AnyContent] = (identify andThen getData andThen requireData) {
+    Redirect(controllers.routes.ReturnTaskListController.onPageLoad())
   }
 }
+

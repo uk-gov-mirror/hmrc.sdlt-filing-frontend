@@ -1,4 +1,4 @@
-@*
+/*
  * Copyright 2025 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,20 +12,20 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *@
+ */
 
-@this(
-    layout: templates.Layout
-)
+package models.address
 
-@()(implicit request: Request[_], messages: Messages)
+import play.api.libs.json.{Json, Writes}
 
-@layout(
-    pageTitle = titleNoForm(messages("unauthorised.title")),
-    timeout   = false
-) {
+case class MandatoryFieldsConfigModel(line1: Option[Boolean] = None,
+                                      line2: Option[Boolean] = None,
+                                      line3: Option[Boolean] = None,
+                                      town: Option[Boolean] = None,
+                                      postcode: Option[Boolean] = None
+                                     )
 
-    <h1 class="govuk-heading-l">@messages("unauthorised.heading")</h1>
-
-    <p class="govuk-body">@messages("unauthorised.guidance")</p>
+object MandatoryFieldsConfigModel {
+  implicit val writes: Writes[MandatoryFieldsConfigModel] = Json.writes[MandatoryFieldsConfigModel]
 }
+

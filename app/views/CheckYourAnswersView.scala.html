@@ -16,14 +16,22 @@
 
 @this(
     layout: templates.Layout,
-    govukSummaryList: GovukSummaryList
+    govukSummaryList: GovukSummaryList,
+    govukButton: GovukButton,
+    formHelper: FormWithCSRF,
 )
 
 @(list: SummaryList)(implicit request: Request[_], messages: Messages)
 
 @layout(pageTitle = titleNoForm(messages("checkYourAnswers.title"))) {
+     @formHelper(action = routes.CheckYourAnswersController.onSubmit()) {
 
-    <h1 class="govuk-heading-xl">@messages("checkYourAnswers.heading")</h1>
+        <h1 class="govuk-heading-l">@messages("checkYourAnswers.heading")</h1>
 
-    @govukSummaryList(list)
+        @govukSummaryList(list.withCssClass("govuk-!-margin-bottom-9"))
+
+        @govukButton(
+           ButtonViewModel(messages("site.save.continue"))
+        )
+ }
 }

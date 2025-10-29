@@ -27,8 +27,8 @@ import viewmodels.implicits._
 
 object PurchaserSurnameOrCompanyNameSummary  {
 
-  def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
-    answers.get(PurchaserSurnameOrCompanyNamePage).map {
+  def row(answers: Option[UserAnswers])(implicit messages: Messages): Option[SummaryListRow] =
+    answers.flatMap(_.get(PurchaserSurnameOrCompanyNamePage)).map {
       answer =>
 
         SummaryListRowViewModel(

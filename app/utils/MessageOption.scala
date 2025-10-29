@@ -1,4 +1,4 @@
-@*
+/*
  * Copyright 2025 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,20 +12,18 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *@
+ */
 
-@this(
-    layout: templates.Layout
-)
+package utils
 
-@()(implicit request: Request[_], messages: Messages)
+import play.api.i18n.{Lang, MessagesApi}
 
-@layout(
-    pageTitle = titleNoForm(messages("unauthorised.title")),
-    timeout   = false
-) {
+object MessageOption {
+  def apply(key: String, lang: Lang, params: String*)(implicit messagesApi: MessagesApi): Option[String] = {
+    val message = messagesApi.translate(key, params.toSeq)(lang)
+    val keyNotDefined = message.exists(_.isEmpty)
 
-    <h1 class="govuk-heading-l">@messages("unauthorised.heading")</h1>
-
-    <p class="govuk-body">@messages("unauthorised.guidance")</p>
+    if (keyNotDefined || message.isEmpty) None else message
+  }
 }
+

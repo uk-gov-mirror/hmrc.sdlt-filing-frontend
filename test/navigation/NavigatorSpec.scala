@@ -35,10 +35,22 @@ class NavigatorSpec extends SpecBase {
         navigator.nextPage(UnknownPage, NormalMode, UserAnswers("id")) mustBe routes.IndexController.onPageLoad()
       }
 
-      "go from individual/business page to name page" in {
+      "go from individual/business page to Purchaser or Company name" in {
 
         case object UnknownPage extends Page
         navigator.nextPage(PurchaserIsIndividualPage, NormalMode, UserAnswers("id")) mustBe routes.PurchaserSurnameOrCompanyNameController.onPageLoad(mode = NormalMode)
+      }
+
+      "go from Purchase/business name page to address lookup" in {
+
+        case object UnknownPage extends Page
+        navigator.nextPage(PurchaserSurnameOrCompanyNamePage, NormalMode, UserAnswers("id")) mustBe controllers.preliminary.routes.PrelimAddressController.redirectToAddressLookup()
+      }
+
+      "go from transaction type page to check your answers" in {
+
+        case object UnknownPage extends Page
+        navigator.nextPage(TransactionTypePage, NormalMode, UserAnswers("id")) mustBe routes.CheckYourAnswersController.onPageLoad()
       }
     }
 
