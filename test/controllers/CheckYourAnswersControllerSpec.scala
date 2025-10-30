@@ -18,7 +18,9 @@ package controllers
 
 import base.SpecBase
 import play.api.test.FakeRequest
-import play.api.test.Helpers._
+import play.api.test.Helpers.*
+import uk.gov.hmrc.govukfrontend.views.Aliases.HtmlContent
+import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.Key
 import viewmodels.govuk.SummaryListFluency
 import views.html.CheckYourAnswersView
 
@@ -26,22 +28,62 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
 
   "Check Your Answers Controller" - {
 
-    "must return OK and the correct view for a GET" in {
+    "must return OK and the correct view for a GET" - {
+      "when the UserAnswers is empty" in {
 
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+        val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
 
-      running(application) {
-        val request = FakeRequest(GET, routes.CheckYourAnswersController.onPageLoad().url)
+        running(application) {
+          val request = FakeRequest(GET, routes.CheckYourAnswersController.onPageLoad().url)
 
-        val result = route(application, request).value
+          val result = route(application, request).value
 
-        val view = application.injector.instanceOf[CheckYourAnswersView]
-        val list = SummaryListViewModel(Seq.empty)
+          val view = application.injector.instanceOf[CheckYourAnswersView]
 
-        status(result) mustEqual OK
-        contentAsString(result) mustEqual view(list)(request, messages(application)).toString
+          val purchaserType = ValueViewModel(
+            HtmlContent(
+              s"""<a href="/stamp-duty-land-tax-filing/preliminary-questions/who-is-making-the-purchase" class="govuk-link">Enter purchaser type</a>""")
+          )
+          val purchaserName = ValueViewModel(
+            HtmlContent(
+              s"""<a href="/stamp-duty-land-tax-filing/preliminary-questions/purchaser-name" class="govuk-link">Enter purchaser name</a>""")
+          )
+          val propertyAddress = ValueViewModel(
+            HtmlContent(
+              s"""<a href="/stamp-duty-land-tax-filing/preliminary-questions/address" class="govuk-link">Enter property address</a>""")
+          )
+          val transactionType = ValueViewModel(
+            HtmlContent(
+              s"""<a href="/stamp-duty-land-tax-filing/preliminary-questions/transaction-type" class="govuk-link">Enter transaction type</a>""")
+          )
+
+          val list = SummaryListViewModel(
+            rows = Seq(
+              SummaryListRowViewModel(
+                key = Key(HtmlContent("Purchaser type")),
+                value = purchaserType
+              ),
+              SummaryListRowViewModel(
+                key = Key(HtmlContent("Purchaser name")),
+                value = purchaserName
+              ),
+              SummaryListRowViewModel(
+                key = Key(HtmlContent("Property address")),
+                value = propertyAddress
+              ),
+              SummaryListRowViewModel(
+                key = Key(HtmlContent("Transaction type")),
+                value = transactionType
+              )
+            )
+          )
+
+          status(result) mustEqual OK
+          contentAsString(result) mustEqual view(list)(request, messages(application)).toString
+        }
       }
     }
+
 
     "must redirect to Journey Recovery for a GET if no existing data is found" in {
 

@@ -67,6 +67,9 @@ purchaser.business.error.required = Enter Purchaser (1) surname or company name
 purchaser.business.error.length = Purchaser (1) surname or company name must be 100 characters or less
 purchaser.business.change.hidden = Purchaser (1) surname or company name
 
+purchaserSurnameOrCompanyName.checkYourAnswersLabel = Purchaser name
+purchaserSurnameOrCompanyName.link.message = Enter purchaser name
+
 purchaser.name.form.maxLength.error = Max length
 purchaser.name.form.regex.error = Invalid Error
 purchaser.name.form.no.input.error = Nothing has been added
@@ -74,11 +77,14 @@ purchaser.name.form.no.input.error = Nothing has been added
 purchaserIsIndividual.title = Who is making the purchase? - Preliminary questions
 purchaserIsIndividual.heading = Who is making the purchase?
 purchaserIsIndividual.individual = An individual
+purchaserIsIndividual.individual.value = Individual
 purchaserIsIndividual.business = A business
-purchaserIsIndividual.checkYourAnswersLabel = Is Purchaser (1) an individual?
+purchaserIsIndividual.business.value = Business
+purchaserIsIndividual.checkYourAnswersLabel = Purchaser type
 purchaserIsIndividual.error.required = Please select an option
 purchaserIsIndividual.error.invalid = Invalid selection
-purchaserIsIndividual.change.hidden = Is Purchaser (1) an individual?
+purchaserIsIndividual.change.hidden = Purchaser type
+purchaserIsIndividual.link.message = Enter purchaser type
 
 returnTaskList.title = returnTaskList
 returnTaskList.heading = returnTaskList
@@ -98,6 +104,8 @@ transactionType.otherTransaction = Other transaction type
 transactionType.checkYourAnswersLabel = Transaction type
 transactionType.error.required = Select the option that best describes your transaction
 transactionType.change.hidden = Change transaction type
+transactionType.link.message = Enter transaction type
+
 # Prelim Questions Address Lookup
 addressLookup.prelimQuestionsAddress.lookupPage.title                   = Find the address of the land or property - Preliminary questions
 addressLookup.prelimQuestionsAddress.lookupPage.heading                 = Find the address of the land or property
@@ -127,6 +135,9 @@ addressLookup.prelimQuestionsAddress.confirmPage.submitLabel            = Contin
 addressLookup.prelimQuestionsAddress.countryPicker.title                = Find your home address - Preliminary questions
 addressLookup.prelimQuestionsAddress.countryPicker.heading              = Find your home address
 
+purchaserAddress.checkYourAnswersLabel = Property address
+purchaserAddress.change.hidden = Property address
+purchaserAddress.link.message = Enter property address
 
 beforeStartReturn.title = Before you start a new Stamp Tax return – Preliminary questions
 beforeStartReturn.heading = Before you start a new Stamp Tax return

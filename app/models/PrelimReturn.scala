@@ -33,4 +33,20 @@ case class PrelimReturn(
 
 object PrelimReturn {
   implicit val format: OFormat[PrelimReturn] = Json.format[PrelimReturn]
+
+  def from(userAnswers: Option[UserAnswers]): PrelimReturn = {
+    val sessionUserData: SessionUserData = userAnswers.get.data.as[SessionUserData]
+    PrelimReturn(
+      stornId = userAnswers.get.id,
+      purchaserIsCompany = sessionUserData.purchaserIsIndividual,
+      surNameOrCompanyName = sessionUserData.purchaserSurnameOrCompanyName,
+      houseNumber = sessionUserData.purchaserAddress.houseNumber,
+      addressLine1 = sessionUserData.purchaserAddress.line1,
+      addressLine2 = sessionUserData.purchaserAddress.line2,
+      addressLine3 = sessionUserData.purchaserAddress.line3,
+      addressLine4 = sessionUserData.purchaserAddress.line4,
+      postcode = sessionUserData.purchaserAddress.postcode,
+      transactionType = sessionUserData.transactionType
+    )
+  }
 }

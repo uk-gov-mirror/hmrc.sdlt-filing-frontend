@@ -17,18 +17,18 @@
 package viewmodels.checkAnswers
 
 import controllers.routes
-import models.{CheckMode, UserAnswers}
+import models.{CheckMode, NormalMode, UserAnswers}
 import pages.TransactionTypePage
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat
 import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
-import viewmodels.govuk.summarylist._
-import viewmodels.implicits._
+import viewmodels.govuk.summarylist.*
+import viewmodels.implicits.*
 
 object TransactionTypeSummary  {
 
-  def row(answers: Option[UserAnswers])(implicit messages: Messages): Option[SummaryListRow] =
+  def row(answers: Option[UserAnswers])(implicit messages: Messages): SummaryListRow =
     answers.flatMap(_.get(TransactionTypePage)).map {
       answer =>
 
@@ -46,5 +46,16 @@ object TransactionTypeSummary  {
               .withVisuallyHiddenText(messages("transactionType.change.hidden"))
           )
         )
+    }.getOrElse{
+
+      val value = ValueViewModel(
+        HtmlContent(
+          s"""<a href="${routes.TransactionTypeController.onPageLoad(NormalMode).url}" class="govuk-link">${messages("transactionType.link.message")}</a>""")
+      )
+
+      SummaryListRowViewModel(
+        key = "transactionType.checkYourAnswersLabel",
+        value = value
+      )
     }
 }

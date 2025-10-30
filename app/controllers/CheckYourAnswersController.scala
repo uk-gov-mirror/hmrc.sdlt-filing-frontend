@@ -18,12 +18,14 @@ package controllers
 
 import com.google.inject.Inject
 import controllers.actions.{DataRequiredAction, DataRetrievalAction, IdentifierAction}
+import models.{PrelimReturn, SessionUserData}
 import play.api.i18n.{I18nSupport, MessagesApi}
+import play.api.libs.json.{JsError, JsFalse, JsResult, Json, JsSuccess}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import repositories.SessionRepository
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
-import viewmodels.checkAnswers.{PurchaserIsIndividualSummary, PurchaserSurnameOrCompanyNameSummary, TransactionTypeSummary}
+import viewmodels.checkAnswers.{PrelimAddressSummary, PurchaserIsIndividualSummary, PurchaserSurnameOrCompanyNameSummary, TransactionTypeSummary}
 import viewmodels.govuk.summarylist.*
 import views.html.CheckYourAnswersView
 
@@ -45,20 +47,48 @@ class CheckYourAnswersController @Inject()(
       for {
         result <- sessionRepository.get(request.userAnswers.id)
       } yield {
-        val summaryList = SummaryListViewModel(
-          rows = Seq(
-            PurchaserIsIndividualSummary.row(result),
-            PurchaserSurnameOrCompanyNameSummary.row(result),
-            TransactionTypeSummary.row(result)
-          ).flatten
-        )
 
-        Ok(view(summaryList))
+        val isDataEmpty = result.exists(_.data.value.isEmpty)
+
+        if (isDataEmpty) {
+          Redirect(controllers.routes.BeforeStartReturnController.onPageLoad())
+        } else {
+          val summaryList = SummaryListViewModel(
+            rows = Seq(
+              PurchaserIsIndividualSummary.row(result),
+              PurchaserSurnameOrCompanyNameSummary.row(result),
+              PrelimAddressSummary.row(result),
+              TransactionTypeSummary.row(result)
+            )
+          )
+
+          Ok(view(summaryList))
+        }
       }
   }
 
-  def onSubmit(): Action[AnyContent] = (identify andThen getData andThen requireData) {
-    Redirect(controllers.routes.ReturnTaskListController.onPageLoad())
+  def onSubmit(): Action[AnyContent] = (identify andThen getData andThen requireData).async {
+    implicit request =>
+
+      for {
+        result <- sessionRepository.get(request.userAnswers.id)
+      } yield {
+
+        val isRequiredDataPresent:Boolean =
+          result.get.data.validate[SessionUserData] match {
+            case JsSuccess(value, _) => true
+            case JsError(_) => false
+        }
+        
+        if (isRequiredDataPresent) {
+          val prelimReturn = PrelimReturn.from(result)
+          
+          Redirect(controllers.routes.ReturnTaskListController.onPageLoad())
+          
+        } else {
+          Redirect(controllers.routes.CheckYourAnswersController.onPageLoad())
+        }
+      }
+
   }
 }
-

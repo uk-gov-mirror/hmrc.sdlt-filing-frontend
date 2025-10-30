@@ -17,17 +17,18 @@
 package viewmodels.checkAnswers
 
 import controllers.routes
-import models.{CheckMode, UserAnswers}
+import models.{CheckMode, NormalMode, UserAnswers}
 import pages.PurchaserSurnameOrCompanyNamePage
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat
+import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
-import viewmodels.govuk.summarylist._
-import viewmodels.implicits._
+import viewmodels.govuk.summarylist.*
+import viewmodels.implicits.*
 
 object PurchaserSurnameOrCompanyNameSummary  {
 
-  def row(answers: Option[UserAnswers])(implicit messages: Messages): Option[SummaryListRow] =
+  def row(answers: Option[UserAnswers])(implicit messages: Messages): SummaryListRow = {
     answers.flatMap(_.get(PurchaserSurnameOrCompanyNamePage)).map {
       answer =>
 
@@ -39,5 +40,17 @@ object PurchaserSurnameOrCompanyNameSummary  {
               .withVisuallyHiddenText(messages("purchaserSurnameOrCompanyName.change.hidden"))
           )
         )
+    }.getOrElse {
+
+      val value = ValueViewModel(
+        HtmlContent(
+          s"""<a href="${routes.PurchaserSurnameOrCompanyNameController.onPageLoad(NormalMode).url}" class="govuk-link">${messages("purchaserSurnameOrCompanyName.link.message")}</a>""")
+      )
+
+      SummaryListRowViewModel(
+        key = "purchaserSurnameOrCompanyName.checkYourAnswersLabel",
+        value = value
+      )
     }
+  }
 }

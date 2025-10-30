@@ -17,10 +17,9 @@
 package viewmodels.checkAnswers
 
 import controllers.routes
-import models.{CheckMode, UserAnswers}
+import models.{CheckMode, NormalMode, UserAnswers}
 import pages.PurchaserIsIndividualPage
 import play.api.i18n.Messages
-import play.twirl.api.HtmlFormat
 import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist.*
@@ -28,16 +27,16 @@ import viewmodels.implicits.*
 
 object PurchaserIsIndividualSummary {
 
-  def row(answers: Option[UserAnswers])(implicit messages: Messages): Option[SummaryListRow] =
+  def row(answers: Option[UserAnswers])(implicit messages: Messages): SummaryListRow =
     answers.flatMap(_.get(PurchaserIsIndividualPage)).map { answer =>
 
       val answerText = answer.toString match {
-        case "option1" => messages("site.yes")
-        case _         => messages("site.no")
+        case "Individual" => messages("purchaserIsIndividual.individual.value")
+        case _  => messages("purchaserIsIndividual.business.value")
       }
 
       val value = ValueViewModel(
-        HtmlContent(HtmlFormat.escape(answerText))
+        HtmlContent(answerText)
       )
 
       SummaryListRowViewModel(
@@ -47,6 +46,17 @@ object PurchaserIsIndividualSummary {
           ActionItemViewModel("site.change", routes.PurchaserIsIndividualController.onPageLoad(CheckMode).url)
             .withVisuallyHiddenText(messages("purchaserIsIndividual.change.hidden"))
         )
+      )
+    }.getOrElse {
+
+      val value = ValueViewModel(
+        HtmlContent(
+          s"""<a href="${routes.PurchaserIsIndividualController.onPageLoad(NormalMode).url}" class="govuk-link">${messages("purchaserIsIndividual.link.message")}</a>""")
+      )
+
+      SummaryListRowViewModel(
+        key = "purchaserIsIndividual.checkYourAnswersLabel",
+        value = value
       )
     }
 }

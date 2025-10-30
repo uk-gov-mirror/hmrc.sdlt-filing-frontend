@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package viewmodels.taskList
+package viewmodels.tasklist
 
 import base.SpecBase
 import models.{FullReturn, PrelimReturn}
