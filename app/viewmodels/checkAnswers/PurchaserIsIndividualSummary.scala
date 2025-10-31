@@ -51,7 +51,7 @@ object PurchaserIsIndividualSummary {
 
       val value = ValueViewModel(
         HtmlContent(
-          s"""<a href="${routes.PurchaserIsIndividualController.onPageLoad(NormalMode).url}" class="govuk-link">${messages("purchaserIsIndividual.link.message")}</a>""")
+          s"""<a href="${routes.PurchaserIsIndividualController.onPageLoad(CheckMode).url}" class="govuk-link">${messages("purchaserIsIndividual.link.message")}</a>""")
       )
 
       SummaryListRowViewModel(

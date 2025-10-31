@@ -17,12 +17,14 @@
 package connectors
 
 import config.FrontendAppConfig
-import models.PrelimReturn
+import models.{PrelimReturn, ReturnId}
 import org.slf4j.{Logger, LoggerFactory}
+import play.api.libs.json.Json
+import play.api.libs.ws.JsonBodyWritables.writeableOf_JsValue
 import play.api.mvc.Request
+import uk.gov.hmrc.http.HttpReads.Implicits.*
 import uk.gov.hmrc.http.client.HttpClientV2
-import uk.gov.hmrc.http.{HeaderCarrier, HttpReads, StringContextOps}
-import uk.gov.hmrc.http.HttpReads.Implicits._
+import uk.gov.hmrc.http.{HeaderCarrier, HttpReads, StringContextOps, UpstreamErrorResponse}
 
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
@@ -41,6 +43,23 @@ class StubConnector @Inject()(val http: HttpClientV2,
       .execute[PrelimReturn]
       .recover{
         case e => throw logResponse(e, "stubPrelimQuestions")
+      }
+  }
+
+  def stubPrelimReturnId(prelimReturn: PrelimReturn)(implicit hc: HeaderCarrier,
+                         request: Request[_]): Future[ReturnId] = {
+    http.post(url"$sdltStubUrl/stamp-duty-land-tax-stub/prelim/returns")
+      .withBody(Json.toJson(prelimReturn))
+      .execute[Either[UpstreamErrorResponse, ReturnId]]
+      .flatMap {
+        case Right(resp) =>
+          Future.successful(
+            resp)
+        case Left(error) =>
+          Future.failed(error)
+      }
+      .recover{
+        case e => throw logResponse(e, "stubPrelimReturnId")
       }
   }
 

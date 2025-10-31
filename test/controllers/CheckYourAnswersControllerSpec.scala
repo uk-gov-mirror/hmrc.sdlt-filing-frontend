@@ -42,11 +42,11 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
 
           val purchaserType = ValueViewModel(
             HtmlContent(
-              s"""<a href="/stamp-duty-land-tax-filing/preliminary-questions/who-is-making-the-purchase" class="govuk-link">Enter purchaser type</a>""")
+              s"""<a href="/stamp-duty-land-tax-filing/change/preliminary-questions/who-is-making-the-purchase" class="govuk-link">Enter purchaser type</a>""")
           )
           val purchaserName = ValueViewModel(
             HtmlContent(
-              s"""<a href="/stamp-duty-land-tax-filing/preliminary-questions/purchaser-name" class="govuk-link">Enter purchaser name</a>""")
+              s"""<a href="/stamp-duty-land-tax-filing/preliminary-questions/purchaser-name/change" class="govuk-link">Enter purchaser name</a>""")
           )
           val propertyAddress = ValueViewModel(
             HtmlContent(
@@ -54,7 +54,7 @@ class CheckYourAnswersControllerSpec extends SpecBase with SummaryListFluency {
           )
           val transactionType = ValueViewModel(
             HtmlContent(
-              s"""<a href="/stamp-duty-land-tax-filing/preliminary-questions/transaction-type" class="govuk-link">Enter transaction type</a>""")
+              s"""<a href="/stamp-duty-land-tax-filing/change/preliminary-questions/transaction-type" class="govuk-link">Enter transaction type</a>""")
           )
 
           val list = SummaryListViewModel(

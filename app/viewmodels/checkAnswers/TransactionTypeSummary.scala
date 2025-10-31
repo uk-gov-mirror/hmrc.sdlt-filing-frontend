@@ -50,7 +50,7 @@ object TransactionTypeSummary  {
 
       val value = ValueViewModel(
         HtmlContent(
-          s"""<a href="${routes.TransactionTypeController.onPageLoad(NormalMode).url}" class="govuk-link">${messages("transactionType.link.message")}</a>""")
+          s"""<a href="${routes.TransactionTypeController.onPageLoad(CheckMode).url}" class="govuk-link">${messages("transactionType.link.message")}</a>""")
       )
 
       SummaryListRowViewModel(

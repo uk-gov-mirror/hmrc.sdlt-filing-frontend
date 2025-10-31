@@ -44,7 +44,7 @@ object PurchaserSurnameOrCompanyNameSummary  {
 
       val value = ValueViewModel(
         HtmlContent(
-          s"""<a href="${routes.PurchaserSurnameOrCompanyNameController.onPageLoad(NormalMode).url}" class="govuk-link">${messages("purchaserSurnameOrCompanyName.link.message")}</a>""")
+          s"""<a href="${routes.PurchaserSurnameOrCompanyNameController.onPageLoad(CheckMode).url}" class="govuk-link">${messages("purchaserSurnameOrCompanyName.link.message")}</a>""")
       )
 
       SummaryListRowViewModel(

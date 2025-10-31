@@ -14,10 +14,12 @@
  * limitations under the License.
  */
 
-package pages
+package models
 
-case object CheckYourAnswersPage extends Page {
+import play.api.libs.json.{Json, OFormat}
 
-  override def toString: String = "returnId"
+final case class ReturnId(returnId: String)
 
+object ReturnId {
+  implicit val format: OFormat[ReturnId] = Json.format[ReturnId]
 }

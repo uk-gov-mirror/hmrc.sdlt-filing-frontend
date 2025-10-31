@@ -56,6 +56,19 @@ class StubConnectorISpec
 
   private val testReturnId = "123456"
 
+  private val completePrelimReturn = PrelimReturn(
+    stornId = "12345",
+    purchaserIsCompany = "YES",
+    surNameOrCompanyName = "Test Company",
+    houseNumber = Some(23),
+    addressLine1 = "Test Street",
+    addressLine2 = Some("Apartment 5"),
+    addressLine3 = Some("Building A"),
+    addressLine4 = Some("District B"),
+    postcode = Some("TE23 5TT"),
+    transactionType = "O"
+  )
+
   // Complete JSON with all required fields
   private val prelimReturnJson: JsValue = Json.obj(
     "stornId" -> testReturnId,
@@ -68,6 +81,10 @@ class StubConnectorISpec
     "addressLine4" -> JsNull,
     "postcode" -> "TE23 5TT",
     "transactionType" -> "O"
+  )
+
+  private val returnIdJson: JsValue = Json.obj(
+    "returnId" -> testReturnId
   )
 
   "StubConnector Integration Tests" - {
@@ -354,5 +371,150 @@ class StubConnectorISpec
         )
       }
     }
+
+    "stubPrelimReturnId" - {
+
+      "must return returnId when the stub returns 200 OK" in {
+        server.stubFor(
+          post(urlPathEqualTo("/stamp-duty-land-tax-stub/prelim/returns"))
+            .willReturn(
+              aResponse()
+                .withStatus(200)
+                .withHeader("Content-Type", "application/json")
+                .withBody(returnIdJson.toString())
+            )
+        )
+
+        val result = connector.stubPrelimReturnId(completePrelimReturn).futureValue
+
+        result mustBe a[String]
+
+        server.verify(
+          postRequestedFor(urlPathEqualTo("/stamp-duty-land-tax-stub/prelim/returns"))
+        )
+      }
+
+      "must throw BadRequestException when stub returns 400 Bad Request" in {
+        server.stubFor(
+          post(urlPathEqualTo("/stamp-duty-land-tax-stub/prelim/returns"))
+            .willReturn(
+              aResponse()
+                .withStatus(400)
+                .withBody("Bad Request")
+            )
+        )
+
+        val result = connector.stubPrelimReturnId(completePrelimReturn).failed.futureValue
+
+        result mustBe an[UpstreamErrorResponse]
+        result.asInstanceOf[UpstreamErrorResponse].statusCode mustBe 400
+
+        server.verify(
+          postRequestedFor(urlPathEqualTo("/stamp-duty-land-tax-stub/prelim/returns"))
+        )
+      }
+
+      "must throw UpstreamErrorResponse when stub returns 500 Internal Server Error" in {
+        server.stubFor(
+          post(urlPathEqualTo("/stamp-duty-land-tax-stub/prelim/returns"))
+            .willReturn(
+              aResponse()
+                .withStatus(500)
+                .withBody("Internal Server Error")
+            )
+        )
+
+        val result = connector.stubPrelimReturnId(completePrelimReturn).failed.futureValue
+
+        result mustBe an[UpstreamErrorResponse]
+        result.asInstanceOf[UpstreamErrorResponse].statusCode mustBe 500
+
+        server.verify(
+          postRequestedFor(urlPathEqualTo("/stamp-duty-land-tax-stub/prelim/returns"))
+        )
+      }
+
+      "must throw UpstreamErrorResponse when stub returns 502 Bad Gateway" in {
+        server.stubFor(
+          post(urlPathEqualTo("/stamp-duty-land-tax-stub/prelim/returns"))
+            .willReturn(
+              aResponse()
+                .withStatus(502)
+                .withBody("Bad Gateway")
+            )
+        )
+
+        val result = connector.stubPrelimReturnId(completePrelimReturn).failed.futureValue
+
+        result mustBe an[UpstreamErrorResponse]
+        result.asInstanceOf[UpstreamErrorResponse].statusCode mustBe 502
+      }
+
+      "must throw UpstreamErrorResponse when stub returns 503 Service Unavailable" in {
+        server.stubFor(
+          post(urlPathEqualTo("/stamp-duty-land-tax-stub/prelim/returns"))
+            .willReturn(
+              aResponse()
+                .withStatus(503)
+                .withBody("Service Unavailable")
+            )
+        )
+
+        val result = connector.stubPrelimReturnId(completePrelimReturn).failed.futureValue
+
+        result mustBe an[UpstreamErrorResponse]
+        result.asInstanceOf[UpstreamErrorResponse].statusCode mustBe 503
+      }
+
+      "must include correct headers in the request" in {
+        server.stubFor(
+          post(urlPathEqualTo("/stamp-duty-land-tax-stub/prelim/returns"))
+            .willReturn(
+              aResponse()
+                .withStatus(200)
+                .withHeader("Content-Type", "application/json")
+                .withBody(returnIdJson.toString())
+            )
+        )
+
+        connector.stubPrelimReturnId(completePrelimReturn).futureValue
+
+        server.verify(
+          postRequestedFor(urlPathEqualTo("/stamp-duty-land-tax-stub/prelim/returns"))
+            .withHeader("User-Agent", equalTo("sdlt-filing-frontend"))
+        )
+      }
+
+      "must handle connection errors when service is unavailable" in {
+        server.stubFor(
+          post(urlPathEqualTo("/stamp-duty-land-tax-stub/prelim/returns"))
+            .willReturn(
+              aResponse()
+                .withFault(com.github.tomakehurst.wiremock.http.Fault.CONNECTION_RESET_BY_PEER)
+            )
+        )
+
+        val result = connector.stubPrelimReturnId(completePrelimReturn).failed.futureValue
+
+        result mustBe a[Throwable]
+      }
+
+      "must handle malformed JSON response" in {
+        server.stubFor(
+          post(urlPathEqualTo("/stamp-duty-land-tax-stub/prelim/returns"))
+            .willReturn(
+              aResponse()
+                .withStatus(400)
+                .withHeader("Content-Type", "application/json")
+                .withBody("{invalid json}")
+            )
+        )
+
+        val result = connector.stubPrelimReturnId(completePrelimReturn).failed.futureValue
+        println(result)
+
+        result mustBe a[UpstreamErrorResponse]
+      }
+    }
+    }
   }
-}

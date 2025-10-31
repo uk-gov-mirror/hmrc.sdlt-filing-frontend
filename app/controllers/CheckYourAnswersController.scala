@@ -17,10 +17,11 @@
 package controllers
 
 import com.google.inject.Inject
+import connectors.StubConnector
 import controllers.actions.{DataRequiredAction, DataRetrievalAction, IdentifierAction}
 import models.{PrelimReturn, SessionUserData}
 import play.api.i18n.{I18nSupport, MessagesApi}
-import play.api.libs.json.{JsError, JsFalse, JsResult, Json, JsSuccess}
+import play.api.libs.json.{JsError, JsSuccess}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import repositories.SessionRepository
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
@@ -29,7 +30,7 @@ import viewmodels.checkAnswers.{PrelimAddressSummary, PurchaserIsIndividualSumma
 import viewmodels.govuk.summarylist.*
 import views.html.CheckYourAnswersView
 
-import scala.concurrent.ExecutionContext
+import scala.concurrent.*
 
 class CheckYourAnswersController @Inject()(
                                             override val messagesApi: MessagesApi,
@@ -37,6 +38,7 @@ class CheckYourAnswersController @Inject()(
                                             getData: DataRetrievalAction,
                                             requireData: DataRequiredAction,
                                             sessionRepository: SessionRepository,
+                                            stubConnector: StubConnector,
                                             val controllerComponents: MessagesControllerComponents,
                                             view: CheckYourAnswersView
                                           )(implicit ex: ExecutionContext) extends FrontendBaseController with I18nSupport {
@@ -72,6 +74,9 @@ class CheckYourAnswersController @Inject()(
 
       for {
         result <- sessionRepository.get(request.userAnswers.id)
+        prelimReturn <- PrelimReturn.from(result)
+        returnId <- stubConnector.stubPrelimReturnId(prelimReturn)
+        _              <- sessionRepository.set(result.get.copy(returnId = Some(returnId.returnId)))
       } yield {
 
         val isRequiredDataPresent:Boolean =
@@ -79,12 +84,9 @@ class CheckYourAnswersController @Inject()(
             case JsSuccess(value, _) => true
             case JsError(_) => false
         }
-        
+
         if (isRequiredDataPresent) {
-          val prelimReturn = PrelimReturn.from(result)
-          
-          Redirect(controllers.routes.ReturnTaskListController.onPageLoad())
-          
+          Redirect(controllers.routes.ReturnTaskListController.onPageLoad(returnId = Some(returnId.returnId)))
         } else {
           Redirect(controllers.routes.CheckYourAnswersController.onPageLoad())
         }

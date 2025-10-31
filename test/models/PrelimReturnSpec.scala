@@ -16,13 +16,14 @@
 
 package models
 
-import org.scalatest.{EitherValues, OptionValues}
 import org.scalatest.freespec.AnyFreeSpec
 import org.scalatest.matchers.must.Matchers
 import org.scalatest.matchers.should.Matchers.shouldBe
+import org.scalatest.{EitherValues, OptionValues}
 import play.api.libs.json.*
 
 import java.time.Instant
+implicit val ec: scala.concurrent.ExecutionContext = scala.concurrent.ExecutionContext.global
 
 class PrelimReturnSpec extends AnyFreeSpec with Matchers with EitherValues with OptionValues {
 
@@ -370,7 +371,9 @@ class PrelimReturnSpec extends AnyFreeSpec with Matchers with EitherValues with 
 
         val prelimReturn = PrelimReturn.from(Some(userAnswers))
 
-        prelimReturn shouldBe completePrelimReturn
+        prelimReturn.map { value =>
+          value shouldBe (completePrelimReturn)
+        }
       }
 
       "must convert into PrelimReturn when only required data is present" in {
@@ -398,7 +401,9 @@ class PrelimReturnSpec extends AnyFreeSpec with Matchers with EitherValues with 
 
         val prelimReturn = PrelimReturn.from(Some(userAnswers))
 
-        prelimReturn shouldBe minimalPrelimReturn
+        prelimReturn.map{ value =>
+          value shouldBe(minimalPrelimReturn)
+        }
       }
       }
     }
