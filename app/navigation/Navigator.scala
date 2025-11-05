@@ -33,6 +33,9 @@ class Navigator @Inject()() {
       _ => controllers.preliminary.routes.PrelimAddressController.redirectToAddressLookup()
     case TransactionTypePage => _ => routes.CheckYourAnswersController.onPageLoad()
 
+    //TODO: Update to Vendor Agent's name page when created
+    case VendorRepresentedByAgentPage => _ => controllers.routes.ReturnTaskListController.onPageLoad()
+
     case _ => _ => routes.IndexController.onPageLoad()
   }
 
