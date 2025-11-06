@@ -19,7 +19,7 @@ package controllers
 import controllers.actions._
 import forms.VendorRepresentedByAgentFormProvider
 import javax.inject.Inject
-import models.Mode
+import models._
 import navigation.Navigator
 import pages.VendorRepresentedByAgentPage
 import play.api.i18n.{I18nSupport, MessagesApi}
@@ -52,9 +52,36 @@ class VendorRepresentedByAgentController @Inject()(
         case Some(value) => form.fill(value)
       }
 
-      //TODO: Replace with VendorCurrentNamePage when implemented (double check getOrElse message
+      //TODO: Replace with VendorCurrentNamePage when implemented (double check getOrElse message)
       //val vendorName: String = request.userAnswers.get(VendorCurrentNamePage).getOrElse("the vendor")
-      val vendorName: String = "the vendor"
+      val vendorName: String = "[TODO the vendor]"
+
+      request.userAnswers.fullReturn match {
+        case Some(fullReturn) =>
+          val mainVendorOption: Option[Vendor] = fullReturn.vendor.flatMap(_.find(_.name.contains("mainVendor")))
+          println(s"PRINT mainVendorOption = ${mainVendorOption}")
+          val isVendorRepresented : Boolean = mainVendorOption match {
+            case Some(mainVendor) =>
+              mainVendor.isRepresentedByAgent.exists(v => v.equalsIgnoreCase("true") || v.equalsIgnoreCase("yes"))
+            case _ =>
+              false
+          }
+
+          val returnAgentTypeVendorExists : Boolean = fullReturn.returnAgent.exists(_.exists(_.agentType.contains("VENDOR")))
+
+          if(!isVendorRepresented && returnAgentTypeVendorExists) {
+            println(s"PRINT This should error as isVendorRepresented = ${isVendorRepresented} and returnAgentTypeVendorExists = ${returnAgentTypeVendorExists}")
+
+          } else {
+            println(s"PRINT Else statement - move to next page happpy path as isVendorRepresented = ${isVendorRepresented} and returnAgentTypeVendorExists = ${returnAgentTypeVendorExists}")
+          }
+
+        case _ => println(s"PRINT should maybe errror as no full return found?")
+      }
+
+
+
+
 
       Ok(view(preparedForm, mode, vendorName))
   }
@@ -64,6 +91,7 @@ class VendorRepresentedByAgentController @Inject()(
 
       form.bindFromRequest().fold(
         formWithErrors =>
+          //TODO: Replace with VendorCurrentNamePage when implemented
           Future.successful(BadRequest(view(formWithErrors, mode, vendorName = "the vendor"))),
 
         value =>

@@ -14,6 +14,8 @@
  * limitations under the License.
  *@
 
+@import viewmodels.LegendSize.Large
+
 @this(
     layout: templates.Layout,
     formHelper: FormWithCSRF,
@@ -35,8 +37,20 @@
         <div class="govuk-caption-l">@messages("vendorRepresentedByAgent.caption")</div>
 
         @govukRadios(
-            //TODO: Check alignment of radio buttons - default to horizontal alignment
-            RadiosViewModel.yesNo(field = form("value"), fieldset = FieldsetViewModel(LegendViewModel(messages("vendorRepresentedByAgent.heading", vendorName)).asPageHeading()))
+            RadiosViewModel(
+                field = form("value"),
+                legend = LegendViewModel(messages("vendorRepresentedByAgent.heading", vendorName)).asPageHeading(size = Large),
+                items = Seq(
+                    RadioItem(
+                        value = Some("true"),
+                        content = Text(messages("site.yes"))
+                    ),
+                    RadioItem(
+                        value = Some("false"),
+                        content = Text(messages("site.no"))
+                    )
+                )
+            )
         )
 
         @govukButton(
