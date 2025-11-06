@@ -49,3 +49,5 @@ GET        /about-the-vendor/vendor-agent                        controllers.Ven
 POST       /about-the-vendor/vendor-agent                        controllers.VendorRepresentedByAgentController.onSubmit(mode: Mode = NormalMode)
 GET        /change/about-the-vendor/vendor-agent                controllers.VendorRepresentedByAgentController.onPageLoad(mode: Mode = CheckMode)
 POST       /change/about-the-vendor/vendor-agent                 controllers.VendorRepresentedByAgentController.onSubmit(mode: Mode = CheckMode)
+
+GET        /vendorRepresentedByAgentError                       controllers.VendorRepresentedByAgentErrorController.onPageLoad()

@@ -155,3 +155,6 @@ vendorRepresentedByAgent.caption = About the vendor
 vendorRepresentedByAgent.checkYourAnswersLabel = Represented by an agent
 vendorRepresentedByAgent.error.required = Please select an option
 vendorRepresentedByAgent.change.hidden = VendorRepresentedByAgent
+
+vendorRepresentedByAgentError.title = vendorRepresentedByAgentError
+vendorRepresentedByAgentError.heading = vendorRepresentedByAgentError
