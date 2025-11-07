@@ -23,7 +23,7 @@ import play.api.libs.json.{JsObject, Json, Reads, Writes}
 
 class ReturnIdSpec extends AnyFreeSpec with Matchers with EitherValues {
 
-  "ReturnIdSpec" - {
+  "ReturnId" - {
 
     def validReturnIdJson: JsObject = Json.obj("returnId" -> "12345")
 

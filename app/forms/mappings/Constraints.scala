@@ -79,12 +79,27 @@ trait Constraints {
         Invalid(errorKey, regex)
     }
 
+  protected def optionalRegexp(regex: String, errorKey: String): Constraint[Option[String]] =
+    Constraint {
+      case Some(str) if str.matches(regex) =>
+        Valid
+      case None => Valid
+      case _ =>
+        Invalid(errorKey, regex)
+    }
+
   protected def maxLength(maximum: Int, errorKey: String): Constraint[String] =
     Constraint {
       case str if str.length <= maximum =>
         Valid
       case _ =>
         Invalid(errorKey, maximum)
+    }
+
+  protected def optionalMaxLength(maximum: Int, errorKey: String): Constraint[Option[String]] =
+    Constraint {
+      case Some(str) if str.length > maximum => Invalid(errorKey, maximum)
+      case _ => Valid
     }
 
   protected def maxDate(maximum: LocalDate, errorKey: String, args: Any*): Constraint[LocalDate] =

@@ -1,0 +1,91 @@
+@*
+ * Copyright 2025 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *@
+
+@import viewmodels.InputWidth._
+@import viewmodels.LabelSize.Large
+@import views.html.components.h1
+
+@this(
+    layout: templates.Layout,
+    formHelper: FormWithCSRF,
+    govukErrorSummary: GovukErrorSummary,
+    govukInput: GovukInput,
+    govukButton: GovukButton
+)
+
+@(form: Form[_], mode: Mode, vendorOrBusiness: String)(implicit request: Request[_], messages: Messages)
+
+@defining(if(vendorOrBusiness == "Individual") "vendor.individual" else "vendor.business") { key =>
+
+    @layout(pageTitle = title(form, (key + ".title"))) {
+
+        @formHelper(action = routes.VendorOrBusinessNameController.onSubmit(mode)) {
+
+            @if(form.errors.nonEmpty) {
+                @govukErrorSummary(ErrorSummaryViewModel(form))
+            }
+
+            @if(vendorOrBusiness == "Individual") {
+                <label class="govuk-label">
+                    <span class="govuk-caption-l">@messages(key + ".caption")</span>
+                    <h1 class="govuk-heading-l">@messages(key + ".heading")</h1>
+                </label>
+
+                @govukInput(
+                    InputViewModel(
+                        field = form("forename1"),
+                        label = LabelViewModel(messages((key + ".firstName"))).withCssClass(className = "govuk-hint")
+                    )
+                    .withWidth(Full)
+                )
+                @govukInput(
+                    InputViewModel(
+                    field = form("forename2"),
+                    label = LabelViewModel(messages((key + ".middleName"))).withCssClass(className = "govuk-hint")
+                    )
+                    .withWidth(Full)
+                )
+                @govukInput(
+                    InputViewModel(
+                        field = form("name"),
+                        label = LabelViewModel(messages((key + ".surname"))).withCssClass(className = "govuk-hint")
+                    )
+                    .withWidth(Full)
+                )
+            } else {
+                @govukInput(
+                    InputViewModel(
+                        field = form("name"),
+                        label =  LabelViewModel(
+                                    HtmlContent(
+                                        Html(
+                                            s"""<span class="govuk-caption-l">${messages(key + ".caption")}</span>
+                                            <h1 class="govuk-heading-l">${messages(key + ".heading")}</h1>"""
+                                            )
+                                        )
+                                    )
+                    )
+                    .withWidth(Full)
+                )
+            }
+
+            @govukButton(
+                ButtonViewModel(messages("site.save.continue"))
+            )
+
+        }
+    }
+}

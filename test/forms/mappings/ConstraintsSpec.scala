@@ -101,6 +101,24 @@ class ConstraintsSpec extends AnyFreeSpec with Matchers with ScalaCheckPropertyC
     }
   }
 
+  "optionalRegexp" - {
+
+    "must return Valid for an input that matches the expression" in {
+      val result = optionalRegexp("""^\w+$""", "error.invalid")(Some("foo"))
+      result mustEqual Valid
+    }
+
+    "must return Valid for an empty input" in {
+      val result = optionalRegexp("""^\w+$""", "error.invalid")(None)
+      result mustEqual Valid
+    }
+
+    "must return Invalid for an input that does not match the expression" in {
+      val result = optionalRegexp("""^\d+$""", "error.invalid")(Some("foo"))
+      result mustEqual Invalid("error.invalid", """^\d+$""")
+    }
+  }
+
   "maxLength" - {
 
     "must return Valid for a string shorter than the allowed length" in {

@@ -32,7 +32,8 @@ class Navigator @Inject()() {
     case PurchaserSurnameOrCompanyNamePage =>
       _ => controllers.preliminary.routes.PrelimAddressController.redirectToAddressLookup()
     case TransactionTypePage => _ => routes.CheckYourAnswersController.onPageLoad()
-
+    // TODO: This needs to change in DTR-1010
+    case VendorOrBusinessNamePage => _ => controllers.routes.PurchaserSurnameOrCompanyNameController.onPageLoad(NormalMode)
     case _ => _ => routes.IndexController.onPageLoad()
   }
 
