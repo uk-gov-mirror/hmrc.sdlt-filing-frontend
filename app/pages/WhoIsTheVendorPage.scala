@@ -14,22 +14,14 @@
  * limitations under the License.
  */
 
-package generators
+package pages
 
-import models.*
-import org.scalacheck.Arbitrary.arbitrary
-import org.scalacheck.{Arbitrary, Gen}
+import models.whoIsTheVendor
+import play.api.libs.json.JsPath
 
-trait ModelGenerators {
+case object WhoIsTheVendorPage extends QuestionPage[whoIsTheVendor] {
 
-  implicit lazy val arbitrarywhoIsTheVendor: Arbitrary[whoIsTheVendor] =
-    Arbitrary {
-      Gen.oneOf(whoIsTheVendor.values.toSeq)
-    }
+  override def path: JsPath = JsPath \ "vendorCurrent" \ toString
 
-  implicit lazy val arbitraryTransactionType: Arbitrary[TransactionType] =
-    Arbitrary {
-      Gen.oneOf(TransactionType.values.toSeq)
-    }
-  
+  override def toString: String = "whoIsTheVendor"
 }

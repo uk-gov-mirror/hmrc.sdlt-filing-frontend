@@ -32,6 +32,8 @@ class Navigator @Inject()() {
     case PurchaserSurnameOrCompanyNamePage =>
       _ => controllers.preliminary.routes.PrelimAddressController.redirectToAddressLookup()
     case TransactionTypePage => _ => routes.CheckYourAnswersController.onPageLoad()
+    case WhoIsTheVendorPage =>
+      _ => routes.ReturnTaskListController.onPageLoad() //Change this to the new page created for VR-1
 
     case _ => _ => routes.IndexController.onPageLoad()
   }

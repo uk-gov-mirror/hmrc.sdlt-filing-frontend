@@ -44,7 +44,7 @@ object VendorTaskList {
       messageKey = _ => "tasklist.vendorQuestion.details",
       url = _ => _ => {
         //change url when ready
-        controllers.routes.PurchaserSurnameOrCompanyNameController.onPageLoad(NormalMode).url
+        controllers.routes.WhoIsTheVendorController.onPageLoad(NormalMode).url
       },
       tagId = "venderQuestionDetailRow",
       checks = scheme => Seq(fullReturn.vendor.exists(_.nonEmpty)),

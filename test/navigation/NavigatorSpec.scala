@@ -54,6 +54,11 @@ class NavigatorSpec extends SpecBase {
       }
     }
 
+    "go from WhoIsTheVendor page to ReturnTaskList" in {
+      navigator.nextPage(WhoIsTheVendorPage, NormalMode, UserAnswers("id")) mustBe routes.ReturnTaskListController.onPageLoad()
+    }
+
+
     "in Check mode" - {
 
       "must go from a page that doesn't exist in the edit route map to CheckYourAnswers" in {
