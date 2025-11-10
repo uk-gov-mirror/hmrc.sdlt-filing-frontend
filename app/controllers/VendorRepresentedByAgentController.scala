@@ -44,6 +44,10 @@ class VendorRepresentedByAgentController @Inject()(
 
   val form = formProvider()
 
+  //TODO: Replace with VendorCurrentNamePage when implemented (double check getOrElse message)
+  //val vendorName: String = request.userAnswers.get(VendorCurrentNamePage).getOrElse("the vendor")
+  val vendorNameStub = "TODO the vendor"
+
   def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
 
@@ -51,39 +55,35 @@ class VendorRepresentedByAgentController @Inject()(
         case None => form
         case Some(value) => form.fill(value)
       }
-
-      //TODO: Replace with VendorCurrentNamePage when implemented (double check getOrElse message)
-      //val vendorName: String = request.userAnswers.get(VendorCurrentNamePage).getOrElse("the vendor")
-      val vendorName: String = "[TODO the vendor]"
-
+      
       request.userAnswers.fullReturn match {
+
         case Some(fullReturn) =>
-          val mainVendorOption: Option[Vendor] = fullReturn.vendor.flatMap(_.find(_.name.contains("mainVendor")))
-          println(s"PRINT mainVendorOption = ${mainVendorOption}")
-          val isVendorRepresented : Boolean = mainVendorOption match {
-            case Some(mainVendor) =>
-              mainVendor.isRepresentedByAgent.exists(v => v.equalsIgnoreCase("true") || v.equalsIgnoreCase("yes"))
-            case _ =>
-              false
+
+          val hasVendorReturnAgent: Boolean = fullReturn.returnAgent.exists(_.exists(_.agentType.contains("VENDOR")))
+          val mainVendorId: Option[String] = fullReturn.returnInfo.flatMap(_.mainVendorID)
+          val mainVendor: Option[Vendor] = for {
+            id <- mainVendorId
+            vendors <- fullReturn.vendor
+            mainVendor <- vendors.find(_.vendorID.contains(id))
+          } yield mainVendor
+
+          val mainVendorRepresented: Boolean = {
+            mainVendor.exists(vendor => vendor.isRepresentedByAgent.exists(v => v.equalsIgnoreCase("true") || v.equalsIgnoreCase("yes")))
           }
 
-          val returnAgentTypeVendorExists : Boolean = fullReturn.returnAgent.exists(_.exists(_.agentType.contains("VENDOR")))
-
-          if(!isVendorRepresented && returnAgentTypeVendorExists) {
-            println(s"PRINT This should error as isVendorRepresented = ${isVendorRepresented} and returnAgentTypeVendorExists = ${returnAgentTypeVendorExists}")
-
+          if(!hasVendorReturnAgent) {
+            Ok(view(preparedForm, mode, vendorNameStub))
+          } else if (mainVendorRepresented) {
+            //TODO: Update to check your answers when page created
+            Redirect(routes.IndexController.onPageLoad())
           } else {
-            println(s"PRINT Else statement - move to next page happpy path as isVendorRepresented = ${isVendorRepresented} and returnAgentTypeVendorExists = ${returnAgentTypeVendorExists}")
+            Redirect(routes.VendorRepresentedByAgentErrorController.onPageLoad())
           }
 
-        case _ => println(s"PRINT should maybe errror as no full return found?")
+        case _ =>
+          Redirect(routes.VendorRepresentedByAgentErrorController.onPageLoad())
       }
-
-
-
-
-
-      Ok(view(preparedForm, mode, vendorName))
   }
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
@@ -92,7 +92,7 @@ class VendorRepresentedByAgentController @Inject()(
       form.bindFromRequest().fold(
         formWithErrors =>
           //TODO: Replace with VendorCurrentNamePage when implemented
-          Future.successful(BadRequest(view(formWithErrors, mode, vendorName = "the vendor"))),
+          Future.successful(BadRequest(view(formWithErrors, mode, vendorName = vendorNameStub))),
 
         value =>
           for {
@@ -104,7 +104,7 @@ class VendorRepresentedByAgentController @Inject()(
               Redirect(navigator.nextPage(VendorRepresentedByAgentPage, mode, updatedAnswers))
             } else {
               //TODO: Update to new CYA page when created
-              Redirect(routes.CheckYourAnswersController.onPageLoad())
+              Redirect(routes.IndexController.onPageLoad())
             }
 
           }
