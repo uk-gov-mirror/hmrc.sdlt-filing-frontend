@@ -148,3 +148,13 @@ beforeStartReturn.heading = Before you start a new Stamp Tax return
 beforeStartReturn.paragraph.p1 = To start a new return, you must answer some preliminary questions.
 beforeStartReturn.paragraph.p2 = Your answers will help you complete and identify your return in the future. Once completed, you can add multiple purchasers and vendors.
 beforeStartReturn.paragraph.p3 = Stamp Taxes Online provides a Unique Transaction Reference number (UTRN) upon successful submission of this return.
+
+aboutTheVendor.caption = About the vendor
+
+agentName.title = What is the agent’s name?
+agentName.heading = What is the agent’s name?
+agentName.hint = Include the branch name if there are multiple office locations, for example, Jones & Co, Leeds
+agentName.error.required = Enter agentName
+agentName.error.length = AgentName must be 28 characters or less
+agentName.error.invalid = AgentName is invalid
+agentName.change.hidden = AgentName

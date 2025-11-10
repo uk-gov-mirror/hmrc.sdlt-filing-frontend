@@ -53,6 +53,10 @@ class NavigatorSpec extends SpecBase {
         case object UnknownPage extends Page
         navigator.nextPage(TransactionTypePage, NormalMode, UserAnswers("id", storn = "TESTSTORN")) mustBe controllers.preliminary.routes.CheckYourAnswersController.onPageLoad()
       }
+
+      "go from agent name page to task list" in { // Change this to go to address lookup
+        navigator.nextPage(AgentNamePage, NormalMode, UserAnswers("id")) mustBe routes.ReturnTaskListController.onPageLoad()
+      }
     }
 
     "in Check mode" - {

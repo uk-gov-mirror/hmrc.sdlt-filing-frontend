@@ -44,3 +44,8 @@ POST       /change/preliminary-questions/transaction-type                control
 GET         /preliminary-questions/address                          controllers.preliminary.PrelimAddressController.redirectToAddressLookup(mode: Mode = NormalMode, changeRoute: Option[String] ?= None)
 GET         /preliminary-questions/address-return                   controllers.preliminary.PrelimAddressController.addressLookupCallback(id: String ?= "", mode: Mode = NormalMode)
 GET         /preliminary-questions/address-return/change            controllers.preliminary.PrelimAddressController.addressLookupCallbackChange(id: String ?= "", mode: Mode = NormalMode)
+
+GET        /about-the-vendor/agent-name                             controllers.AgentNameController.onPageLoad(mode: Mode = NormalMode)
+POST       /about-the-vendor/agent-name                             controllers.AgentNameController.onSubmit(mode: Mode = NormalMode)
+GET        /change/about-the-vendor/agent-name                      controllers.AgentNameController.onPageLoad(mode: Mode = CheckMode)
+POST       /change/about-the-vendor/agent-name                      controllers.AgentNameController.onSubmit(mode: Mode = CheckMode)

@@ -32,6 +32,7 @@ class Navigator @Inject()() {
     case PurchaserSurnameOrCompanyNamePage =>
       _ => controllers.preliminary.routes.PrelimAddressController.redirectToAddressLookup()
     case TransactionTypePage => _ => controllers.preliminary.routes.CheckYourAnswersController.onPageLoad()
+    case AgentNamePage => _ => routes.ReturnTaskListController.onPageLoad() //Change this to the address lookup
 
     case _ => _ => routes.IndexController.onPageLoad()
   }
