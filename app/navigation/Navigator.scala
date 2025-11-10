@@ -33,6 +33,8 @@ class Navigator @Inject()() {
       _ => controllers.preliminary.routes.PrelimAddressController.redirectToAddressLookup()
     case TransactionTypePage => _ => routes.CheckYourAnswersController.onPageLoad()
 
+//    case ConfirmVendorAddressPage => _ => routes.VendorRepresentedByAgentController.onPageLoad()
+    
     case _ => _ => routes.IndexController.onPageLoad()
   }
 

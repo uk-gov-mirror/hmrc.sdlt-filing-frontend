@@ -14,24 +14,18 @@
  * limitations under the License.
  */
 
-package services
-
-import connectors.StubConnector
-import models.FullReturn
-import org.slf4j.{Logger, LoggerFactory}
-import play.api.mvc.Request
-import uk.gov.hmrc.http.HeaderCarrier
+package forms
 
 import javax.inject.Inject
-import scala.concurrent.{ExecutionContext, Future}
 
-class FullReturnService @Inject()(stubConnector: StubConnector)(implicit ec: ExecutionContext) {
-  
-  val logger: Logger = LoggerFactory.getLogger(getClass)
-  
-  def getFullReturn(returnId: Option[String] = None)(implicit hc: HeaderCarrier, request: Request[_]): Future[FullReturn] = {
-    logger.info("[getFullReturnBE] Getting Full Return")
-    stubConnector.stubGetFullReturn(returnId)
-  }
+import forms.mappings.Mappings
+import play.api.data.Form
+import models.ConfirmVendorAddress
 
+class ConfirmVendorAddressFormProvider @Inject() extends Mappings {
+
+  def apply(): Form[ConfirmVendorAddress] =
+    Form(
+      "value" -> enumerable[ConfirmVendorAddress]("confirmVendorAddress.error.required")
+    )
 }

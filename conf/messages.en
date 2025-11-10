@@ -148,3 +148,9 @@ beforeStartReturn.heading = Before you start a new Stamp Tax return
 beforeStartReturn.paragraph.p1 = To start a new return, you must answer some preliminary questions.
 beforeStartReturn.paragraph.p2 = Your answers will help you complete and identify your return in the future. Once completed, you can add multiple purchasers and vendors.
 beforeStartReturn.paragraph.p3 = Stamp Taxes Online provides a Unique Transaction Reference number (UTRN) upon successful submission of this return.
+
+confirmVendorAddress.title = Confirm {0}’s address – About the Vendor
+confirmVendorAddress.label = About the vendor
+confirmVendorAddress.heading = Confirm {0}’s address
+confirmVendorAddress.isAddress = Is this {0}’s address?
+confirmVendorAddress.error.required = Please select an option
