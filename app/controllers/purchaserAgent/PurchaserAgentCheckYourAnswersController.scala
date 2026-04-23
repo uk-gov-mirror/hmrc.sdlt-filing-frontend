@@ -29,9 +29,10 @@ import repositories.SessionRepository
 import services.purchaserAgent.PurchaserAgentService
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import viewmodels.checkAnswers.purchaserAgent.*
-import viewmodels.govuk.all.SummaryListViewModel
 import views.html.purchaserAgent.PurchaserAgentCheckYourAnswersView
 import uk.gov.hmrc.http.HeaderCarrier
+import services.checkAnswers.CheckAnswersService
+import viewmodels.checkAnswers.summary.SummaryRowResult
 
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
@@ -45,7 +46,8 @@ class PurchaserAgentCheckYourAnswersController @Inject()(
                                                           backendConnector: StampDutyLandTaxConnector,
                                                           val controllerComponents: MessagesControllerComponents,
                                                           view: PurchaserAgentCheckYourAnswersView,
-                                                          purchaserAgentService: PurchaserAgentService
+                                                          purchaserAgentService: PurchaserAgentService,
+                                                          checkAnswersService: CheckAnswersService
                                                         )(implicit ex: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
   def onPageLoad: Action[AnyContent] = (identify andThen getData andThen requireData).async {
@@ -59,19 +61,20 @@ class PurchaserAgentCheckYourAnswersController @Inject()(
         if (isDataEmpty) {
           Redirect(controllers.purchaserAgent.routes.PurchaserAgentBeforeYouStartController.onPageLoad(NormalMode))
         } else {
-          val summaryList = SummaryListViewModel(
-            rows = Seq(
-              Some(PurchaserAgentNameSummary.row(request.userAnswers)),
-              Some(PurchaserAgentAddressSummary.row(request.userAnswers)),
-              Some(AddContactDetailsForPurchaserAgentSummary.row(request.userAnswers)),
-              PurchaserAgentsContactDetailsSummary.row(request.userAnswers),
-              Some(AddPurchaserAgentReferenceNumberSummary.row(request.userAnswers)),
-              PurchaserAgentReferenceSummary.row(request.userAnswers),
-              Some(PurchaserAgentAuthorisedSummary.row(request.userAnswers))
-            ).flatten
-          )
+          val rowResults = Seq(
+            Some(PurchaserAgentNameSummary.row(request.userAnswers)),
+            Some(PurchaserAgentAddressSummary.row(request.userAnswers)),
+            Some(AddContactDetailsForPurchaserAgentSummary.row(request.userAnswers)),
+            PurchaserAgentsContactDetailsSummary.row(request.userAnswers),
+            Some(AddPurchaserAgentReferenceNumberSummary.row(request.userAnswers)),
+            PurchaserAgentReferenceSummary.row(request.userAnswers),
+            Some(PurchaserAgentAuthorisedSummary.row(request.userAnswers))
+          ).flatten
 
-          Ok(view(summaryList))
+          checkAnswersService.redirectOrRender(rowResults) match {
+            case Left(call) => Redirect(call)
+            case Right(summaryList) => Ok(view(summaryList))
+          }
         }
       }
   }

@@ -23,12 +23,13 @@ import pages.preliminary.PurchaserAddressPage
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat
 import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
-import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist.*
 import viewmodels.implicits.*
+import viewmodels.checkAnswers.summary.SummaryRowResult
+import viewmodels.checkAnswers.summary.SummaryRowResult.{Missing, Row}
 
 object PrelimAddressSummary {
-  def row(answers: Option[UserAnswers])(implicit messages: Messages): SummaryListRow =
+  def row(answers: Option[UserAnswers])(implicit messages: Messages): SummaryRowResult =
     answers.flatMap(_.get(PurchaserAddressPage)).map { answer =>
       
       val listOfAddressDetails = List(
@@ -53,24 +54,17 @@ object PrelimAddressSummary {
         HtmlContent(HtmlFormat.escape(prelimAddressString))
       )
 
-      SummaryListRowViewModel(
-        key = "purchaser.address.checkYourAnswersLabel",
-        value = value,
-        actions = Seq(
-          ActionItemViewModel("site.change", routes.PrelimAddressController.redirectToAddressLookup(Some("change")).url)
-            .withVisuallyHiddenText(messages("purchaser.address.change.hidden"))
+      Row(
+        SummaryListRowViewModel(
+          key = "purchaser.address.checkYourAnswersLabel",
+          value = value,
+          actions = Seq(
+            ActionItemViewModel("site.change", routes.PrelimAddressController.redirectToAddressLookup(Some("change")).url)
+              .withVisuallyHiddenText(messages("purchaser.address.change.hidden"))
+          )
         )
       )
     }.getOrElse{
-
-      val value = ValueViewModel(
-        HtmlContent(
-          s"""<a href="${routes.PrelimAddressController.redirectToAddressLookup(Some("change")).url}" class="govuk-link">${messages("purchaser.address.link.message")}</a>""")
-      )
-      
-      SummaryListRowViewModel(
-        key = "purchaser.address.checkYourAnswersLabel",
-        value = value
-      )
+      Missing(controllers.preliminary.routes.PrelimAddressController.redirectToAddressLookup(Some("change")))
     }
 }

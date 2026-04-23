@@ -21,13 +21,14 @@ import pages.purchaserAgent.{AddContactDetailsForPurchaserAgentPage, PurchaserAg
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat
 import uk.gov.hmrc.govukfrontend.views.Aliases.HtmlContent
-import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist.*
 import viewmodels.implicits.*
+import viewmodels.checkAnswers.summary.SummaryRowResult
+import viewmodels.checkAnswers.summary.SummaryRowResult.{Missing, Row}
 
 object PurchaserAgentsContactDetailsSummary {
 
-  def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] = {
+  def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryRowResult] = {
     val label = messages("purchaserAgent.contactDetails.checkYourAnswersLabel")
     val changeRoute = controllers.purchaserAgent.routes.PurchaserAgentsContactDetailsController.onPageLoad(CheckMode).url
 
@@ -44,23 +45,16 @@ object PurchaserAgentsContactDetailsSummary {
           case (None, None) => ""
         }
 
-        Some(SummaryListRowViewModel(
+        Some(Row(SummaryListRowViewModel(
           key = label,
           value = ValueViewModel(HtmlContent(value)),
           actions = Seq(
             ActionItemViewModel("site.change", changeRoute)
               .withVisuallyHiddenText(messages("purchaserAgent.contactDetails.change.hidden"))
           )
-        ))
+        )))
       case (None, Some(true)) =>
-        val value = ValueViewModel(
-          HtmlContent(
-            s"""<a href="$changeRoute" class="govuk-link">${messages("returnAgent.checkYourAnswers.contactDetails.missing")}</a>""")
-        )
-        Some(SummaryListRowViewModel(
-          key = label,
-          value = value
-        ))
+        Some(Missing(controllers.purchaserAgent.routes.PurchaserAgentsContactDetailsController.onPageLoad(CheckMode)))
       case _ => None
     }
   }

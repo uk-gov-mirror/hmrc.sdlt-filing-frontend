@@ -19,14 +19,14 @@ package viewmodels.checkAnswers.purchaserAgent
 import models.{CheckMode, UserAnswers}
 import pages.purchaserAgent.AddPurchaserAgentReferenceNumberPage
 import play.api.i18n.Messages
-import uk.gov.hmrc.govukfrontend.views.Aliases.HtmlContent
-import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist.*
 import viewmodels.implicits.*
+import viewmodels.checkAnswers.summary.SummaryRowResult
+import viewmodels.checkAnswers.summary.SummaryRowResult.{Missing, Row}
 
 object AddPurchaserAgentReferenceNumberSummary {
 
-  def row(answers: UserAnswers)(implicit messages: Messages): SummaryListRow = {
+  def row(answers: UserAnswers)(implicit messages: Messages): SummaryRowResult = {
     val changeRoute = controllers.purchaserAgent.routes.AddPurchaserAgentReferenceNumberController.onPageLoad(CheckMode).url
     val label = messages("purchaserAgent.addAgentReferenceNumber.checkYourAnswersLabel")
     answers.get(AddPurchaserAgentReferenceNumberPage).map {
@@ -34,23 +34,18 @@ object AddPurchaserAgentReferenceNumberSummary {
 
         val value = if (answer) "site.yes" else "site.no"
 
-        SummaryListRowViewModel(
-          key = label,
-          value = ValueViewModel(value),
-          actions = Seq(
-            ActionItemViewModel("site.change", changeRoute)
-              .withVisuallyHiddenText(messages("purchaserAgent.addAgentReferenceNumber.change.hidden"))
+        Row(
+          SummaryListRowViewModel(
+            key = label,
+            value = ValueViewModel(value),
+            actions = Seq(
+              ActionItemViewModel("site.change", changeRoute)
+                .withVisuallyHiddenText(messages("purchaserAgent.addAgentReferenceNumber.change.hidden"))
+            )
           )
         )
     }.getOrElse {
-      val value = ValueViewModel(
-        HtmlContent(
-          s"""<a href="$changeRoute" class="govuk-link">${messages("returnAgent.checkYourAnswers.addReferenceNumber.missing")}</a>""")
-      )
-      SummaryListRowViewModel(
-        key = label,
-        value = value
-      )
+      Missing(controllers.purchaserAgent.routes.AddPurchaserAgentReferenceNumberController.onPageLoad(CheckMode))
     }
   }
 }

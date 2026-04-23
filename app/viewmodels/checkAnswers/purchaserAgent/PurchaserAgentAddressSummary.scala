@@ -22,35 +22,31 @@ import models.address.Address
 import pages.purchaserAgent.PurchaserAgentAddressPage
 import play.api.i18n.Messages
 import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
-import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist.*
 import viewmodels.implicits.*
+import viewmodels.checkAnswers.summary.SummaryRowResult
+import viewmodels.checkAnswers.summary.SummaryRowResult.{Missing, Row}
 
 object PurchaserAgentAddressSummary {
-  def row(answers: UserAnswers)(implicit messages: Messages): SummaryListRow = {
+  def row(answers: UserAnswers)(implicit messages: Messages): SummaryRowResult = {
     val changeRoute = controllers.purchaserAgent.routes.PurchaserAgentAddressController.redirectToAddressLookupPurchaserAgent(Some("change")).url
     val label = messages("purchaserAgent.address.checkYourAnswersLabel")
     answers.get(PurchaserAgentAddressPage).map { answer =>
 
-      SummaryListRowViewModel(
-        key = label,
-        value = ValueViewModel(HtmlContent(toHtml(answer))),
-        actions = Seq(
-          ActionItemViewModel(
-            "site.change",
-            changeRoute
-          ).withVisuallyHiddenText(messages("purchaserAgent.address.change.hidden"))
+      Row(
+        SummaryListRowViewModel(
+          key = label,
+          value = ValueViewModel(HtmlContent(toHtml(answer))),
+          actions = Seq(
+            ActionItemViewModel(
+              "site.change",
+              changeRoute
+            ).withVisuallyHiddenText(messages("purchaserAgent.address.change.hidden"))
+          )
         )
       )
     }.getOrElse {
-      val value = ValueViewModel(
-        HtmlContent(
-          s"""<a href="$changeRoute" class="govuk-link">${messages("returnAgent.checkYourAnswers.address.missing")}</a>""")
-      )
-      SummaryListRowViewModel(
-        key = label,
-        value = value
-      )
+      Missing(controllers.purchaserAgent.routes.PurchaserAgentAddressController.redirectToAddressLookupPurchaserAgent(Some("change")))
     }
   }
 }
