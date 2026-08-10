@@ -933,7 +933,7 @@ class TransactionCheckYourAnswersControllerSpec
 
     "handleLeaseDecision" - {
 
-      "must create lease when grant of lease and lease not defined" in {
+      "must create lease when grant of lease and lease not defined and lease data exists" in {
         val fullReturnNoLease = completeFullReturn.copy(
           transaction = Some(completeTransaction.copy(transactionDescription = Some("L"))),
           lease = None,
@@ -987,14 +987,65 @@ class TransactionCheckYourAnswersControllerSpec
           status(result) mustEqual SEE_OTHER
           redirectLocation(result).value mustEqual controllers.routes.ReturnTaskListController.onPageLoad().url
           verify(mockBackendConnector).createLease(any[CreateLeaseRequest])(any(), any())
-          verify(mockBackendConnector).updateReturnVersion(any[ReturnVersionUpdateRequest])(any(), any())
-          verify(mockBackendConnector).updateTransaction(any[UpdateTransactionRequest])(any(), any())
         }
       }
 
-      "must delete lease when not grant of lease and lease defined" in {
+      "must not create lease when grant of lease and lease not defined but no lease data" in {
+        val fullReturnNoLease = completeFullReturn.copy(
+          transaction = Some(completeTransaction.copy(transactionDescription = Some("L"))),
+          lease = None,
+          submission = None
+        )
+
+        val userAnswersNoLeaseData = UserAnswers(
+          id = "12345",
+          returnId = Some("AB2346"),
+          storn = "TESTSTORN",
+          fullReturn = Some(fullReturnNoLease),
+          data = transactionCurrentData  // Only transaction data, no lease data
+        )
+          .set(TypeOfTransactionPage, TransactionType.GrantOfLease).success.value
+          .set(TransactionEffectiveDatePage, LocalDate.of(2024, 1, 1)).success.value
+          .set(TransactionAddDateOfContractPage, false).success.value
+          .set(TransactionLinkedTransactionsPage, false).success.value
+          .set(PurchaserEligibleToClaimReliefPage, false).success.value
+          .set(TransactionPartialReliefPage, false).success.value
+          .set(ConsiderationsAffectedUncertainPage, false).success.value
+          .set(TransactionDeferringPaymentPage, false).success.value
+          .set(SaleOfBusinessPage, false).success.value
+          .set(Cap1OrNsbcPage, false).success.value
+          .set(TransactionRestrictionsCovenantsAndConditionsPage, false).success.value
+          .set(IsLandOrPropertyExchangedPage, false).success.value
+          .set(TransactionExercisingAnOptionPage, false).success.value
+
+        when(mockSessionRepository.get(any())).thenReturn(Future.successful(Some(userAnswersNoLeaseData)))
+        when(mockBackendConnector.updateReturnVersion(any[ReturnVersionUpdateRequest])(any(), any()))
+          .thenReturn(Future.successful(ReturnVersionUpdateReturn(Some(2))))
+        when(mockBackendConnector.updateTransaction(any[UpdateTransactionRequest])(any(), any()))
+          .thenReturn(Future.successful(UpdateTransactionReturn(updated = true)))
+        when(mockBackendConnector.updateTaxCalculationInfo(any[UpdateTaxCalculationRequest])(any(), any()))
+          .thenReturn(Future.successful(UpdateTaxCalculationReturn(updated = true)))
+
+        val application = applicationBuilder(userAnswers = Some(userAnswersNoLeaseData))
+          .overrides(
+            bind[SessionRepository].toInstance(mockSessionRepository),
+            bind[StampDutyLandTaxConnector].toInstance(mockBackendConnector)
+          )
+          .build()
+
+        running(application) {
+          val request = FakeRequest(POST, routes.TransactionCheckYourAnswersController.onSubmit().url)
+          val result = route(application, request).value
+
+          status(result) mustEqual SEE_OTHER
+          redirectLocation(result).value mustEqual controllers.routes.ReturnTaskListController.onPageLoad().url
+          verify(mockBackendConnector, org.mockito.Mockito.never()).createLease(any[CreateLeaseRequest])(any(), any())
+        }
+      }
+
+      "must not create lease when grant of lease and lease already defined" in {
         val fullReturnWithLease = completeFullReturn.copy(
-          transaction = Some(completeTransaction.copy(transactionDescription = Some("F"))),
+          transaction = Some(completeTransaction.copy(transactionDescription = Some("L"))),
           lease = Some(Lease(
             leaseID = Some(completeFullReturn.returnResourceRef)
           )),
@@ -1009,6 +1060,61 @@ class TransactionCheckYourAnswersControllerSpec
           storn = "TESTSTORN",
           fullReturn = Some(fullReturnWithLease),
           data = combinedData
+        )
+          .set(TypeOfTransactionPage, TransactionType.GrantOfLease).success.value
+          .set(TransactionEffectiveDatePage, LocalDate.of(2024, 1, 1)).success.value
+          .set(TransactionAddDateOfContractPage, false).success.value
+          .set(TransactionLinkedTransactionsPage, false).success.value
+          .set(PurchaserEligibleToClaimReliefPage, false).success.value
+          .set(TransactionPartialReliefPage, false).success.value
+          .set(ConsiderationsAffectedUncertainPage, false).success.value
+          .set(TransactionDeferringPaymentPage, false).success.value
+          .set(SaleOfBusinessPage, false).success.value
+          .set(Cap1OrNsbcPage, false).success.value
+          .set(TransactionRestrictionsCovenantsAndConditionsPage, false).success.value
+          .set(IsLandOrPropertyExchangedPage, false).success.value
+          .set(TransactionExercisingAnOptionPage, false).success.value
+
+        when(mockSessionRepository.get(any())).thenReturn(Future.successful(Some(userAnswersWithLease)))
+        when(mockBackendConnector.updateReturnVersion(any[ReturnVersionUpdateRequest])(any(), any()))
+          .thenReturn(Future.successful(ReturnVersionUpdateReturn(Some(2))))
+        when(mockBackendConnector.updateTransaction(any[UpdateTransactionRequest])(any(), any()))
+          .thenReturn(Future.successful(UpdateTransactionReturn(updated = true)))
+        when(mockBackendConnector.updateTaxCalculationInfo(any[UpdateTaxCalculationRequest])(any(), any()))
+          .thenReturn(Future.successful(UpdateTaxCalculationReturn(updated = true)))
+
+        val application = applicationBuilder(userAnswers = Some(userAnswersWithLease))
+          .overrides(
+            bind[SessionRepository].toInstance(mockSessionRepository),
+            bind[StampDutyLandTaxConnector].toInstance(mockBackendConnector)
+          )
+          .build()
+
+        running(application) {
+          val request = FakeRequest(POST, routes.TransactionCheckYourAnswersController.onSubmit().url)
+          val result = route(application, request).value
+
+          status(result) mustEqual SEE_OTHER
+          redirectLocation(result).value mustEqual controllers.routes.ReturnTaskListController.onPageLoad().url
+          verify(mockBackendConnector, org.mockito.Mockito.never()).createLease(any[CreateLeaseRequest])(any(), any())
+        }
+      }
+
+      "must delete lease when not grant of lease and lease defined" in {
+        val fullReturnWithLease = completeFullReturn.copy(
+          transaction = Some(completeTransaction.copy(transactionDescription = Some("F"))),
+          lease = Some(Lease(
+            leaseID = Some(completeFullReturn.returnResourceRef)
+          )),
+          submission = None
+        )
+
+        val userAnswersWithLease = UserAnswers(
+          id = "12345",
+          returnId = Some("AB2346"),
+          storn = "TESTSTORN",
+          fullReturn = Some(fullReturnWithLease),
+          data = transactionCurrentData
         )
           .set(TypeOfTransactionPage, TransactionType.ConveyanceTransfer).success.value
           .set(TransactionEffectiveDatePage, LocalDate.of(2024, 1, 1)).success.value
@@ -1048,49 +1154,36 @@ class TransactionCheckYourAnswersControllerSpec
           status(result) mustEqual SEE_OTHER
           redirectLocation(result).value mustEqual controllers.routes.ReturnTaskListController.onPageLoad().url
           verify(mockBackendConnector).deleteLease(any[DeleteLeaseRequest])(any(), any())
-          verify(mockBackendConnector).updateReturnVersion(any[ReturnVersionUpdateRequest])(any(), any())
-          verify(mockBackendConnector).updateTransaction(any[UpdateTransactionRequest])(any(), any())
         }
       }
 
-      "must do nothing when grant of lease and lease already defined" in {
-        val fullReturnWithLease = completeFullReturn.copy(
-          transaction = Some(completeTransaction.copy(transactionDescription = Some("L"))),
-          lease = Some(Lease())
-        )
-        val userAnswersWithLease = completeUserAnswersWithLease.copy(fullReturn = Some(fullReturnWithLease))
-
-        when(mockSessionRepository.get(any())).thenReturn(Future.successful(Some(userAnswersWithLease)))
-        when(mockBackendConnector.updateReturnVersion(any[ReturnVersionUpdateRequest])(any(), any()))
-          .thenReturn(Future.successful(ReturnVersionUpdateReturn(Some(2))))
-        when(mockBackendConnector.updateTransaction(any[UpdateTransactionRequest])(any(), any()))
-          .thenReturn(Future.successful(UpdateTransactionReturn(updated = true)))
-        when(mockBackendConnector.updateTaxCalculationInfo(any[UpdateTaxCalculationRequest])(any(), any()))
-          .thenReturn(Future.successful(UpdateTaxCalculationReturn(updated = true)))
-
-        val application = applicationBuilder(userAnswers = Some(userAnswersWithLease))
-          .overrides(
-            bind[SessionRepository].toInstance(mockSessionRepository),
-            bind[StampDutyLandTaxConnector].toInstance(mockBackendConnector)
-          )
-          .build()
-
-        running(application) {
-          val request = FakeRequest(POST, routes.TransactionCheckYourAnswersController.onSubmit().url)
-          val result = route(application, request).value
-
-          status(result) mustEqual SEE_OTHER
-          verify(mockBackendConnector, org.mockito.Mockito.never()).createLease(any[CreateLeaseRequest])(any(), any())
-          verify(mockBackendConnector, org.mockito.Mockito.never()).deleteLease(any[DeleteLeaseRequest])(any(), any())
-        }
-      }
-
-      "must do nothing when not grant of lease and lease not defined" in {
+      "must do nothing when not grant of lease and no lease defined" in {
         val fullReturnNoLease = completeFullReturn.copy(
           transaction = Some(completeTransaction.copy(transactionDescription = Some("F"))),
-          lease = None
+          lease = None,
+          submission = None
         )
-        val userAnswersNoLease = completeUserAnswersWithLease.copy(fullReturn = Some(fullReturnNoLease))
+
+        val userAnswersNoLease = UserAnswers(
+          id = "12345",
+          returnId = Some("AB2346"),
+          storn = "TESTSTORN",
+          fullReturn = Some(fullReturnNoLease),
+          data = transactionCurrentData
+        )
+          .set(TypeOfTransactionPage, TransactionType.ConveyanceTransfer).success.value
+          .set(TransactionEffectiveDatePage, LocalDate.of(2024, 1, 1)).success.value
+          .set(TransactionAddDateOfContractPage, false).success.value
+          .set(TransactionLinkedTransactionsPage, false).success.value
+          .set(PurchaserEligibleToClaimReliefPage, false).success.value
+          .set(TransactionPartialReliefPage, false).success.value
+          .set(ConsiderationsAffectedUncertainPage, false).success.value
+          .set(TransactionDeferringPaymentPage, false).success.value
+          .set(SaleOfBusinessPage, false).success.value
+          .set(Cap1OrNsbcPage, false).success.value
+          .set(TransactionRestrictionsCovenantsAndConditionsPage, false).success.value
+          .set(IsLandOrPropertyExchangedPage, false).success.value
+          .set(TransactionExercisingAnOptionPage, false).success.value
 
         when(mockSessionRepository.get(any())).thenReturn(Future.successful(Some(userAnswersNoLease)))
         when(mockBackendConnector.updateReturnVersion(any[ReturnVersionUpdateRequest])(any(), any()))
@@ -1112,70 +1205,7 @@ class TransactionCheckYourAnswersControllerSpec
           val result = route(application, request).value
 
           status(result) mustEqual SEE_OTHER
-          verify(mockBackendConnector, org.mockito.Mockito.never()).createLease(any[CreateLeaseRequest])(any(), any())
-          verify(mockBackendConnector, org.mockito.Mockito.never()).deleteLease(any[DeleteLeaseRequest])(any(), any())
-        }
-      }
-
-      "must do nothing when delete lease triggered but returnResourceRef is None" in {
-        val fullReturnWithLease = completeFullReturn.copy(
-          returnResourceRef = "",
-          transaction = Some(completeTransaction.copy(transactionDescription = Some("F"))),
-          lease = Some(Lease())
-        )
-        val userAnswersWithLease = completeUserAnswersWithLease.copy(fullReturn = Some(fullReturnWithLease))
-
-        when(mockSessionRepository.get(any())).thenReturn(Future.successful(Some(userAnswersWithLease)))
-        when(mockBackendConnector.updateReturnVersion(any[ReturnVersionUpdateRequest])(any(), any()))
-          .thenReturn(Future.successful(ReturnVersionUpdateReturn(Some(2))))
-        when(mockBackendConnector.updateTransaction(any[UpdateTransactionRequest])(any(), any()))
-          .thenReturn(Future.successful(UpdateTransactionReturn(updated = true)))
-        when(mockBackendConnector.updateTaxCalculationInfo(any[UpdateTaxCalculationRequest])(any(), any()))
-          .thenReturn(Future.successful(UpdateTaxCalculationReturn(updated = true)))
-
-        val application = applicationBuilder(userAnswers = Some(userAnswersWithLease))
-          .overrides(
-            bind[SessionRepository].toInstance(mockSessionRepository),
-            bind[StampDutyLandTaxConnector].toInstance(mockBackendConnector)
-          )
-          .build()
-
-        running(application) {
-          val request = FakeRequest(POST, routes.TransactionCheckYourAnswersController.onSubmit().url)
-          val result = route(application, request).value
-
-          status(result) mustEqual SEE_OTHER
-          verify(mockBackendConnector, org.mockito.Mockito.never()).deleteLease(any[DeleteLeaseRequest])(any(), any())
-        }
-      }
-
-      "must do nothing when transaction is not defined" in {
-        val fullReturnNoTransaction = completeFullReturn.copy(
-          transaction = None,
-          lease = Some(Lease())
-        )
-        val userAnswersNoTransaction = completeUserAnswersWithLease.copy(fullReturn = Some(fullReturnNoTransaction))
-
-        when(mockSessionRepository.get(any())).thenReturn(Future.successful(Some(userAnswersNoTransaction)))
-        when(mockBackendConnector.updateReturnVersion(any[ReturnVersionUpdateRequest])(any(), any()))
-          .thenReturn(Future.successful(ReturnVersionUpdateReturn(Some(2))))
-        when(mockBackendConnector.updateTransaction(any[UpdateTransactionRequest])(any(), any()))
-          .thenReturn(Future.successful(UpdateTransactionReturn(updated = true)))
-        when(mockBackendConnector.updateTaxCalculationInfo(any[UpdateTaxCalculationRequest])(any(), any()))
-          .thenReturn(Future.successful(UpdateTaxCalculationReturn(updated = true)))
-
-        val application = applicationBuilder(userAnswers = Some(userAnswersNoTransaction))
-          .overrides(
-            bind[SessionRepository].toInstance(mockSessionRepository),
-            bind[StampDutyLandTaxConnector].toInstance(mockBackendConnector)
-          )
-          .build()
-
-        running(application) {
-          val request = FakeRequest(POST, routes.TransactionCheckYourAnswersController.onSubmit().url)
-          val result = route(application, request).value
-
-          status(result) mustEqual SEE_OTHER
+          redirectLocation(result).value mustEqual controllers.routes.ReturnTaskListController.onPageLoad().url
           verify(mockBackendConnector, org.mockito.Mockito.never()).createLease(any[CreateLeaseRequest])(any(), any())
           verify(mockBackendConnector, org.mockito.Mockito.never()).deleteLease(any[DeleteLeaseRequest])(any(), any())
         }

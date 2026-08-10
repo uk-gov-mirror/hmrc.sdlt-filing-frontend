@@ -20,7 +20,7 @@ import connectors.StampDutyLandTaxConnector
 import controllers.actions.*
 import models.{CheckMode, Lease, ReturnVersionUpdateRequest, Transaction, UserAnswers}
 import models.land.LandTypeOfProperty
-import models.lease.{CreateLeaseRequest, DeleteLeaseRequest}
+import models.lease.{CreateLeaseRequest, DeleteLeaseRequest, LeaseSessionQuestions}
 import models.prelimQuestions.TransactionType
 import models.prelimQuestions.TransactionType.GrantOfLease
 import models.transaction.{ReasonForRelief, TransactionSessionQuestions, UpdateTransactionRequest}
@@ -113,11 +113,15 @@ class TransactionCheckYourAnswersController @Inject()(
 
     leaseDecision match {
       case "createLease" =>
-        for {
-          lease <- Lease.from(userAnswers)
-          createLeaseRequest <- CreateLeaseRequest.from(userAnswers, lease)
-          _ <- backendConnector.createLease(createLeaseRequest)
-        } yield ()
+        (userAnswers.data \ "leaseCurrent").validate[LeaseSessionQuestions] match {
+          case JsSuccess(_, _) =>
+            for {
+              lease <- Lease.from(userAnswers)
+              createLeaseRequest <- CreateLeaseRequest.from(userAnswers, lease)
+              _ <- backendConnector.createLease(createLeaseRequest)
+            } yield ()
+          case _ => Future.unit
+        }
 
       case "deleteLease" =>
         for {
