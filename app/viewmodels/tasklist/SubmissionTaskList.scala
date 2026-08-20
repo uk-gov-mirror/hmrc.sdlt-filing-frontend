@@ -17,8 +17,9 @@
 package viewmodels.tasklist
 
 import config.FrontendAppConfig
-import models.FullReturn
+import models.{FullReturn, UserAnswers}
 import play.api.i18n.Messages
+import services.crossflow.fields.CrossFlowValidationService
 import utils.{LeaseHelper, PropertyTypeHelper}
 import viewmodels.tasklist.LandTaskList.isLandComplete
 import viewmodels.tasklist.LeaseTaskList.isLeaseComplete
@@ -37,15 +38,21 @@ object SubmissionTaskList {
 
   def build(fullReturn: FullReturn)
            (implicit messages: Messages,
-            appConfig: FrontendAppConfig): TaskListSection =
+            appConfig: FrontendAppConfig,
+            crossFlowValidationService: CrossFlowValidationService,
+            userAnswers: UserAnswers): TaskListSection =
     TaskListSection(
       heading = messages("tasklist.submissionQuestion.heading"),
       rows = Seq(
         buildSubmissionRow(fullReturn)
       )
     )
-
-  def buildSubmissionRow(fullReturn: FullReturn)(implicit messages: Messages, appConfig: FrontendAppConfig): TaskListSectionRow = {
+  
+  def buildSubmissionRow(fullReturn: FullReturn)
+                        (implicit messages: Messages,
+                         appConfig: FrontendAppConfig,
+                         crossFlowValidationService: CrossFlowValidationService,
+                         userAnswers: UserAnswers): TaskListSectionRow = {
     val url = fullReturn.submission match {
       case Some(submission) if submission.submissionID.isDefined =>
         controllers.submission.routes.SubmissionCompleteController.onPageLoad().url
@@ -90,13 +97,12 @@ object SubmissionTaskList {
             LeaseTaskList.leaseRowBuilder(fullReturn, viewmodels.tasklist.LeaseTaskList.noFailures)
           )
         ).flatten
-
         mandatory ++ conditional
       }
     ).build(fullReturn)
   }
 
-  def canStartSubmission(fullReturn: FullReturn): Boolean = {
+  def canStartSubmission(fullReturn: FullReturn)(implicit crossFlowValidationService: CrossFlowValidationService, userAnswers: UserAnswers): Boolean = {
     isVendorComplete(fullReturn) &&
     isPurchaserComplete(fullReturn) &&
     isLandComplete(fullReturn) &&
@@ -105,7 +111,8 @@ object SubmissionTaskList {
     isVendorAgentComplete(fullReturn) &&
     isPurchaserAgentComplete(fullReturn) &&
     (!isLeaseRequired(fullReturn) || isLeaseComplete(fullReturn)) &&
-    (!isResidencyRequired(fullReturn) || isResidencyComplete(fullReturn))
+    (!isResidencyRequired(fullReturn) || isResidencyComplete(fullReturn)) &&
+      crossFlowValidationService.failureCount(userAnswers) > 0
   }
 
   private def isLeaseRequired(fullReturn: FullReturn): Boolean = {

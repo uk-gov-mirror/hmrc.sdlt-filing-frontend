@@ -18,12 +18,13 @@ package controllers.submission
 
 import controllers.actions.*
 import forms.submission.AddEmailConfirmationFormProvider
-import models.Mode
+import models.{Mode, UserAnswers}
 import navigation.Navigator
 import pages.submission.AddEmailConfirmationPage
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import repositories.SessionRepository
+import services.crossflow.fields.CrossFlowValidationService
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import viewmodels.tasklist.SubmissionTaskList
 import views.html.submission.AddEmailConfirmationView
@@ -42,7 +43,8 @@ class AddEmailConfirmationController @Inject()(
                                                   resubmissionCheck: ResubmissionCheckAction,
                                                   formProvider: AddEmailConfirmationFormProvider,
                                                   val controllerComponents: MessagesControllerComponents,
-                                                  view: AddEmailConfirmationView
+                                                  view: AddEmailConfirmationView,
+                                                  crossFlowValidationService: CrossFlowValidationService,
                                                 )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
   val form = formProvider()
@@ -51,6 +53,7 @@ class AddEmailConfirmationController @Inject()(
     implicit request =>
 
       val submissionAlreadyStarted = request.userAnswers.fullReturn.exists(_.submission.isDefined)
+      implicit val userAnswers: UserAnswers = request.userAnswers
 
       if (!submissionAlreadyStarted && !request.userAnswers.fullReturn.exists(SubmissionTaskList.canStartSubmission)) {
         Redirect(controllers.routes.ReturnTaskListController.onPageLoad())
@@ -68,6 +71,7 @@ class AddEmailConfirmationController @Inject()(
     implicit request =>
 
       val submissionAlreadyStarted = request.userAnswers.fullReturn.exists(_.submission.isDefined)
+      implicit val userAnswers: UserAnswers = request.userAnswers
 
       if (!submissionAlreadyStarted && !request.userAnswers.fullReturn.exists(SubmissionTaskList.canStartSubmission)) {
         Future.successful(Redirect(controllers.routes.ReturnTaskListController.onPageLoad()))

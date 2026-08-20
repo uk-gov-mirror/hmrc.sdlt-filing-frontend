@@ -49,7 +49,8 @@ class ReturnTaskListController @Inject()(
                                           pdfGenerationService: PDFGenerationService,
                                           crossFlowService: CrossFlowValidationService,
                                           purchaserService: PurchaserService,
-                                          landService: LandService
+                                          landService: LandService,
+                                          implicit val crossFlowValidationService: CrossFlowValidationService
                                         )(implicit ec: ExecutionContext, frontendAppConfig: FrontendAppConfig)
   extends FrontendBaseController
     with I18nSupport {
@@ -65,6 +66,8 @@ class ReturnTaskListController @Inject()(
           userAnswers  = UserAnswers(id = request.userId, returnId = Some(id), fullReturn = Some(fullReturn), storn = request.storn)
           _           <- sessionRepository.set(userAnswers)
         } yield {
+          implicit val implicitUserAnswers: UserAnswers = userAnswers
+
           val maybeSubmissionObject = userAnswers.fullReturn.flatMap(_.submission)
           val purchaserName: Option[String] = {
             purchaserService.getMainPurchaser(userAnswers).flatMap { purchaser => purchaser.companyName.orElse(

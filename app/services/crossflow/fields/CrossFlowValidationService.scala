@@ -179,3 +179,6 @@ class CrossFlowValidationService @Inject() (
 
   def rulesTriggeredBy(section: ReturnSection): Seq[CrossFlowRule] =
     ruleList.filter(_.inputs.contains(section))
+
+  def failureCount(ua: UserAnswers): Int =
+    validateAll(ua).size + landFailures(ua).size

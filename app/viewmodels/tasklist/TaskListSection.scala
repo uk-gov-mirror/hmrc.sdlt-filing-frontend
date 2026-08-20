@@ -17,9 +17,10 @@
 package viewmodels.tasklist
 
 import config.FrontendAppConfig
-import models.FullReturn
+import models.{FullReturn, UserAnswers}
 import play.api.i18n.Messages
 import play.api.mvc.Request
+import services.crossflow.fields.CrossFlowValidationService
 import uk.gov.hmrc.http.HeaderCarrier
 
 import scala.concurrent.ExecutionContext
@@ -37,7 +38,9 @@ object TaskListSections {
                                        appConfig: FrontendAppConfig,
                                        hc: HeaderCarrier,
                                        ec: ExecutionContext,
-                                       request: Request[_]) = List(
+                                       request: Request[_],
+                                       crossFlowValidationService: CrossFlowValidationService,
+                                       userAnswers: UserAnswers) = List(
     Some(VendorTaskList.build(fullReturn)),
     Some(VendorAgentTaskList.build(fullReturn)),
     Some(PurchaserTaskList.build(fullReturn)),
@@ -50,7 +53,8 @@ object TaskListSections {
     Some(SubmissionTaskList.build(fullReturn))
   ).flatten
   def allComplete(fullReturn: FullReturn)
-                 (implicit messagesApi: Messages, appConfig: FrontendAppConfig, hc: HeaderCarrier, ec: ExecutionContext, request: Request[_]): Boolean =
+                 (implicit messagesApi: Messages, appConfig: FrontendAppConfig, hc: HeaderCarrier, ec: ExecutionContext, request: Request[_],
+                  crossFlowValidationService: CrossFlowValidationService, userAnswers: UserAnswers): Boolean =
     sections(fullReturn).forall{x => x.isComplete}
 }
 

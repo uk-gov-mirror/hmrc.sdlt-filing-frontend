@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package controllers.submission
 
 import controllers.actions.*
@@ -21,6 +20,7 @@ import models.Mode
 import pages.submission.WhoAreYouSubmittingForPage
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
+import services.crossflow.fields.CrossFlowValidationService
 import services.submission.ChrisSubmissionService
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
@@ -39,6 +39,7 @@ class DeclarationController @Inject()(
                                        requireData: DataRequiredAction,
                                        resubmissionCheck: ResubmissionCheckAction,
                                        chrisSubmissionService: ChrisSubmissionService,
+                                       implicit val crossFlowValidationService: CrossFlowValidationService,
                                        val controllerComponents: MessagesControllerComponents,
                                        view: DeclarationView
                                      ) extends FrontendBaseController with I18nSupport {
@@ -47,6 +48,7 @@ class DeclarationController @Inject()(
     implicit request =>
 
       val submissionAlreadyStarted = request.userAnswers.fullReturn.exists(_.submission.isDefined)
+      implicit val userAnswers = request.userAnswers
 
       if (!submissionAlreadyStarted && !request.userAnswers.fullReturn.exists(SubmissionTaskList.canStartSubmission)) {
         Redirect(controllers.routes.ReturnTaskListController.onPageLoad())
