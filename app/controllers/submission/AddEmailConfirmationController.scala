@@ -40,6 +40,7 @@ class AddEmailConfirmationController @Inject()(
                                                   getData: DataRetrievalAction,
                                                   requireData: DataRequiredAction,
                                                   resubmissionCheck: ResubmissionCheckAction,
+                                                  crossFlowCheck: CrossFlowCheckAction,
                                                   formProvider: AddEmailConfirmationFormProvider,
                                                   val controllerComponents: MessagesControllerComponents,
                                                   view: AddEmailConfirmationView
@@ -47,7 +48,7 @@ class AddEmailConfirmationController @Inject()(
 
   val form = formProvider()
 
-  def onPageLoad(mode: Mode): Action[AnyContent] = (activatedIdentify andThen getData andThen requireData andThen resubmissionCheck) {
+  def onPageLoad(mode: Mode): Action[AnyContent] = (activatedIdentify andThen getData andThen requireData andThen resubmissionCheck andThen crossFlowCheck) {
     implicit request =>
 
       val submissionAlreadyStarted = request.userAnswers.fullReturn.exists(_.submission.isDefined)
@@ -64,7 +65,7 @@ class AddEmailConfirmationController @Inject()(
       }
   }
 
-  def onSubmit(mode: Mode): Action[AnyContent] = (activatedIdentify andThen getData andThen requireData andThen resubmissionCheck).async {
+  def onSubmit(mode: Mode): Action[AnyContent] = (activatedIdentify andThen getData andThen requireData andThen resubmissionCheck andThen crossFlowCheck).async {
     implicit request =>
 
       val submissionAlreadyStarted = request.userAnswers.fullReturn.exists(_.submission.isDefined)

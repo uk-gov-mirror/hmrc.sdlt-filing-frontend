@@ -43,6 +43,7 @@ class Sdlt5CertificateForEachLandOrPropertyController @Inject()(
                                                                    getData: DataRetrievalAction,
                                                                    requireData: DataRequiredAction,
                                                                    resubmissionCheck: ResubmissionCheckAction,
+                                                                   crossFlowCheck: CrossFlowCheckAction,
                                                                    formProvider: Sdlt5CertificateForEachLandOrPropertyFormProvider,
                                                                    certificateForEachService: CertificateForEachService,
                                                                    val controllerComponents: MessagesControllerComponents,
@@ -51,7 +52,7 @@ class Sdlt5CertificateForEachLandOrPropertyController @Inject()(
 
   val form = formProvider()
 
-  def onPageLoad(mode: Mode): Action[AnyContent] = (activatedIdentify andThen getData andThen requireData andThen resubmissionCheck ) {
+  def onPageLoad(mode: Mode): Action[AnyContent] = (activatedIdentify andThen getData andThen requireData andThen resubmissionCheck andThen crossFlowCheck) {
     implicit request =>
 
       val submissionAlreadyStarted = request.userAnswers.fullReturn.exists(_.submission.isDefined)
@@ -73,7 +74,7 @@ class Sdlt5CertificateForEachLandOrPropertyController @Inject()(
       }
   }
 
-  def onSubmit(mode: Mode): Action[AnyContent] = (activatedIdentify andThen getData andThen requireData andThen resubmissionCheck).async {
+  def onSubmit(mode: Mode): Action[AnyContent] = (activatedIdentify andThen getData andThen requireData andThen resubmissionCheck andThen crossFlowCheck).async {
     implicit request =>
 
       val submissionAlreadyStarted = request.userAnswers.fullReturn.exists(_.submission.isDefined)

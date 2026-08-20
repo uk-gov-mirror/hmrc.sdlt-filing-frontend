@@ -38,12 +38,13 @@ class DeclarationController @Inject()(
                                        getData: DataRetrievalAction,
                                        requireData: DataRequiredAction,
                                        resubmissionCheck: ResubmissionCheckAction,
+                                       crossFlowCheck: CrossFlowCheckAction,
                                        chrisSubmissionService: ChrisSubmissionService,
                                        val controllerComponents: MessagesControllerComponents,
                                        view: DeclarationView
                                      ) extends FrontendBaseController with I18nSupport {
 
-  def onPageLoad(mode: Mode): Action[AnyContent] = (activatedIdentify andThen getData andThen requireData andThen resubmissionCheck) {
+  def onPageLoad(mode: Mode): Action[AnyContent] = (activatedIdentify andThen getData andThen requireData andThen resubmissionCheck andThen crossFlowCheck) {
     implicit request =>
 
       val submissionAlreadyStarted = request.userAnswers.fullReturn.exists(_.submission.isDefined)
@@ -61,7 +62,7 @@ class DeclarationController @Inject()(
 
   }
 
-  def onSubmit(): Action[AnyContent] = (activatedIdentify andThen getData andThen requireData andThen resubmissionCheck).async {
+  def onSubmit(): Action[AnyContent] = (activatedIdentify andThen getData andThen requireData andThen resubmissionCheck andThen crossFlowCheck).async {
     implicit request =>
       implicit val hc: HeaderCarrier = HeaderCarrierConverter.fromRequestAndSession(request, request.session)
 

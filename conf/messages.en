@@ -159,6 +159,7 @@ tasklist.leaseQuestion.details                                                  
 tasklist.submissionQuestion.heading                                                 = Submit your return
 tasklist.submissionQuestion.details                                                 = Submit your return
 tasklist.submissionQuestion.hint                                                    = You must complete all previous sections before starting
+tasklist.submissionQuestion.hint.crossFlow                                          = You must correct the problems in your return before starting
 tasklist.taxCalculationQuestion.hint                                                = You must complete all previous sections before starting
 tasklist.inProgress                                                                 = In Progress
 tasklist.cannotStartYet                                                             = Cannot start yet

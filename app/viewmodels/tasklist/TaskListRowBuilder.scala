@@ -45,7 +45,7 @@ case class TaskListRowBuilder(messageKey: FullReturn => String,
     def checkCompleteness(rows: Seq[TaskListRowBuilder], result: Boolean = true): Boolean = {
       rows match {
         case Nil => result
-        case row :: tail => checkCompleteness(tail ++ row.prerequisites(fullReturn), result && row.isComplete(fullReturn))
+        case row :: tail => checkCompleteness(tail ++ row.prerequisites(fullReturn), result && row.isComplete(fullReturn) && !row.invalid(fullReturn))
       }
     }
 

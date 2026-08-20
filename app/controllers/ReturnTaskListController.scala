@@ -94,7 +94,7 @@ class ReturnTaskListController @Inject()(
               Some(TransactionTaskList.build(fullReturn, transactionStatus)),
               if (LeaseHelper.isLeaseType(fullReturn)) Some(LeaseTaskList.build(fullReturn, leaseStatus)) else None,
               Some(TaxCalculationTaskList.build(fullReturn)),
-              Some(SubmissionTaskList.build(fullReturn))
+              Some(SubmissionTaskList.build(fullReturn, landStatus, transactionStatus, leaseStatus))
             ).flatten
 
             Ok(view(purchaserName, landAddress1, sections: _*))

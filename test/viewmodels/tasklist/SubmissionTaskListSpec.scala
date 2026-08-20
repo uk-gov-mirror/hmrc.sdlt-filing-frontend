@@ -21,6 +21,7 @@ import config.FrontendAppConfig
 import constants.FullReturnConstants.*
 import play.api.i18n.Messages
 import play.api.test.Helpers.running
+import services.crossflow.{CrossFlowTarget, PageId, ReturnSection, SectionStatus}
 
 class SubmissionTaskListSpec extends SpecBase {
 
@@ -28,6 +29,15 @@ class SubmissionTaskListSpec extends SpecBase {
   private val fullReturnIncompleteSubmission = fullReturnComplete.copy(
     submission = Some(completeSubmission.copy(submissionID = None)))
   private val fullReturnMissingSubmission= fullReturnComplete.copy(submission = None)
+
+  private def failingStatus(section: ReturnSection, ruleId: String): SectionStatus =
+    SectionStatus(
+      section     = section,
+      hasFailures = true,
+      ruleIds     = Seq(ruleId),
+      messageKeys = Seq(s"crossflow.$ruleId.message"),
+      targets     = Seq(CrossFlowTarget(PageId("page"), "value"))
+    )
 
   "SubmissionTaskList" - {
 
@@ -464,6 +474,73 @@ class SubmissionTaskListSpec extends SpecBase {
         }
       }
 
+      "must show 'Cannot start yet' status and display the crossflow hint when land has crossflow errors" in {
+        val application = applicationBuilder().build()
+
+        running(application) {
+          implicit val messagesInstance: Messages = messages(application)
+          implicit val appConfig: FrontendAppConfig = application.injector.instanceOf[FrontendAppConfig]
+
+          val result = SubmissionTaskList.buildSubmissionRow(
+            fullReturnMissingSubmission,
+            landStatus = failingStatus(ReturnSection.Land, "F17-1")
+          )
+
+          result.status mustBe TLCannotStart
+          result.hint mustBe Some("tasklist.submissionQuestion.hint.crossFlow")
+        }
+      }
+
+      "must show 'Cannot start yet' status and display the crossflow hint when the transaction has crossflow errors" in {
+        val application = applicationBuilder().build()
+
+        running(application) {
+          implicit val messagesInstance: Messages = messages(application)
+          implicit val appConfig: FrontendAppConfig = application.injector.instanceOf[FrontendAppConfig]
+
+          val result = SubmissionTaskList.buildSubmissionRow(
+            fullReturnMissingSubmission,
+            transactionStatus = failingStatus(ReturnSection.Transaction, "F23-32")
+          )
+
+          result.status mustBe TLCannotStart
+          result.hint mustBe Some("tasklist.submissionQuestion.hint.crossFlow")
+        }
+      }
+
+      "must show 'Cannot start yet' status and display the crossflow hint when the lease has crossflow errors" in {
+        val application = applicationBuilder().build()
+
+        running(application) {
+          implicit val messagesInstance: Messages = messages(application)
+          implicit val appConfig: FrontendAppConfig = application.injector.instanceOf[FrontendAppConfig]
+
+          val result = SubmissionTaskList.buildSubmissionRow(
+            fullReturnMissingSubmission,
+            leaseStatus = failingStatus(ReturnSection.Lease, "F28-1")
+          )
+
+          result.status mustBe TLCannotStart
+          result.hint mustBe Some("tasklist.submissionQuestion.hint.crossFlow")
+        }
+      }
+
+      "must show the crossflow hint in preference to the incomplete section hint" in {
+        val application = applicationBuilder().build()
+
+        running(application) {
+          implicit val messagesInstance: Messages = messages(application)
+          implicit val appConfig: FrontendAppConfig = application.injector.instanceOf[FrontendAppConfig]
+
+          val result = SubmissionTaskList.buildSubmissionRow(
+            completeFullReturn.copy(vendor = None),
+            landStatus = failingStatus(ReturnSection.Land, "F17-1")
+          )
+
+          result.status mustBe TLCannotStart
+          result.hint mustBe Some("tasklist.submissionQuestion.hint.crossFlow")
+        }
+      }
     }
 
     ".canStartSubmission" - {

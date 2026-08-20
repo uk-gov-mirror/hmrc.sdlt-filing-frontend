@@ -123,6 +123,9 @@ class CrossFlowValidationService @Inject() (
   def hasFailures(ua: UserAnswers): Boolean =
     rules.exists(_.validate(ua).isDefined) || landFailures(ua).nonEmpty
 
+  def failureCount(ua: UserAnswers): Int =
+    validateAll(ua).size + landFailures(ua).size
+
   def sectionStatus(section: ReturnSection, ua: UserAnswers): SectionStatus =
     val fs = failuresAffecting(section, ua)
     if fs.isEmpty then SectionStatus.empty(section)

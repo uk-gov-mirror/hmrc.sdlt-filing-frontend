@@ -406,6 +406,43 @@ class CrossFlowValidationServiceSpec extends SpecBase with Matchers {
     }
   }
 
+  "failureCount" - {
+
+    "must return 0 when no rules are registered" in {
+      val service = new CrossFlowValidationService(Set.empty, Set.empty)
+
+      service.failureCount(emptyUserAnswers) mustBe 0
+    }
+
+    "must return 0 when no rules fire" in {
+      val service = new CrossFlowValidationService(Set(neverFire("R1")), Set(neverFireLand("R2")))
+
+      service.failureCount(emptyUserAnswers) mustBe 0
+    }
+
+    "must count every rule that fires" in {
+      val service = new CrossFlowValidationService(Set(
+        alwaysFire("R1"),
+        alwaysFire("R2"),
+        neverFire("R3")
+      ), Set.empty)
+
+      service.failureCount(emptyUserAnswers) mustBe 2
+    }
+
+    "must count a land rule once for every land it fires on" in {
+      val landA = Land(landID = Some("LND001"))
+      val landB = Land(landID = Some("LND002"))
+      val ua    = emptyUserAnswers.copy(
+        fullReturn = Some(emptyFullReturn.copy(land = Some(Seq(landA, landB))))
+      )
+
+      val service = new CrossFlowValidationService(Set(alwaysFire("R1")), Set(alwaysFireLand("L1")))
+
+      service.failureCount(ua) mustBe 3
+    }
+  }
+
   "sectionStatus" - {
 
     "must return an empty status when no rules fire for the section" in {

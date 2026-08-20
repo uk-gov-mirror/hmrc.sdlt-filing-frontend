@@ -42,6 +42,7 @@ class WhoAreYouSubmittingForController @Inject()(
                                                   getData: DataRetrievalAction,
                                                   requireData: DataRequiredAction,
                                                   resubmissionCheck: ResubmissionCheckAction,
+                                                  crossFlowCheck: CrossFlowCheckAction,
                                                   formProvider: WhoAreYouSubmittingForFormProvider,
                                                   val controllerComponents: MessagesControllerComponents,
                                                   view: WhoAreYouSubmittingForView
@@ -49,7 +50,7 @@ class WhoAreYouSubmittingForController @Inject()(
 
   val form: Form[WhoAreYouSubmittingFor] = formProvider()
 
-  def onPageLoad(mode: Mode): Action[AnyContent] = (activatedIdentify andThen getData andThen requireData andThen resubmissionCheck) {
+  def onPageLoad(mode: Mode): Action[AnyContent] = (activatedIdentify andThen getData andThen requireData andThen resubmissionCheck andThen crossFlowCheck) {
     implicit request =>
 
       val submissionAlreadyStarted = request.userAnswers.fullReturn.exists(_.submission.isDefined)
@@ -66,7 +67,7 @@ class WhoAreYouSubmittingForController @Inject()(
       }
   }
 
-  def onSubmit(mode: Mode): Action[AnyContent] = (activatedIdentify andThen getData andThen requireData andThen resubmissionCheck).async {
+  def onSubmit(mode: Mode): Action[AnyContent] = (activatedIdentify andThen getData andThen requireData andThen resubmissionCheck andThen crossFlowCheck).async {
     implicit request =>
 
       val submissionAlreadyStarted = request.userAnswers.fullReturn.exists(_.submission.isDefined)

@@ -31,11 +31,12 @@ class SubmissionBeforeYouStartController @Inject()(
                                        getData: DataRetrievalAction,
                                        requireData: DataRequiredAction,
                                        resubmissionCheck: ResubmissionCheckAction,
+                                       crossFlowCheck: CrossFlowCheckAction,
                                        val controllerComponents: MessagesControllerComponents,
                                        view: SubmissionBeforeYouStartView
                                      ) extends FrontendBaseController with I18nSupport {
 
-  def onPageLoad: Action[AnyContent] = (activatedIdentify andThen getData andThen requireData andThen resubmissionCheck) {
+  def onPageLoad: Action[AnyContent] = (activatedIdentify andThen getData andThen requireData andThen resubmissionCheck andThen crossFlowCheck) {
     implicit request =>
       val submissionAlreadyStarted = request.userAnswers.fullReturn.exists(_.submission.isDefined)
 

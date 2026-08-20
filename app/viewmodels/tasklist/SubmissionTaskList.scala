@@ -19,6 +19,7 @@ package viewmodels.tasklist
 import config.FrontendAppConfig
 import models.FullReturn
 import play.api.i18n.Messages
+import services.crossflow.SectionStatus
 import utils.{LeaseHelper, PropertyTypeHelper}
 import viewmodels.tasklist.LandTaskList.isLandComplete
 import viewmodels.tasklist.LeaseTaskList.isLeaseComplete
@@ -35,17 +36,24 @@ import javax.inject.Singleton
 @Singleton
 object SubmissionTaskList {
 
-  def build(fullReturn: FullReturn)
+  def build(fullReturn: FullReturn,
+            landStatus: SectionStatus = LandTaskList.noFailures,
+            transactionStatus: SectionStatus = TransactionTaskList.noFailures,
+            leaseStatus: SectionStatus = LeaseTaskList.noFailures)
            (implicit messages: Messages,
             appConfig: FrontendAppConfig): TaskListSection =
     TaskListSection(
       heading = messages("tasklist.submissionQuestion.heading"),
       rows = Seq(
-        buildSubmissionRow(fullReturn)
+        buildSubmissionRow(fullReturn, landStatus, transactionStatus, leaseStatus)
       )
     )
 
-  def buildSubmissionRow(fullReturn: FullReturn)(implicit messages: Messages, appConfig: FrontendAppConfig): TaskListSectionRow = {
+  def buildSubmissionRow(fullReturn: FullReturn,
+                         landStatus: SectionStatus = LandTaskList.noFailures,
+                         transactionStatus: SectionStatus = TransactionTaskList.noFailures,
+                         leaseStatus: SectionStatus = LeaseTaskList.noFailures)
+                        (implicit messages: Messages, appConfig: FrontendAppConfig): TaskListSectionRow = {
     val url = fullReturn.submission match {
       case Some(submission) if submission.submissionID.isDefined =>
         controllers.submission.routes.SubmissionCompleteController.onPageLoad().url
@@ -60,7 +68,9 @@ object SubmissionTaskList {
       },
       messageKey = _ => "tasklist.submissionQuestion.details",
       hint = fullReturn => {
-        if (!canStartSubmission(fullReturn))
+        if (hasFailures(landStatus, transactionStatus, leaseStatus))
+          Some("tasklist.submissionQuestion.hint.crossFlow")
+        else if (!canStartSubmission(fullReturn))
           Some("tasklist.submissionQuestion.hint")
         else
           None
@@ -79,15 +89,15 @@ object SubmissionTaskList {
           VendorAgentTaskList.vendorAgentRowBuilder(fullReturn),
           PurchaserTaskList.purchaserRowBuilder(fullReturn),
           PurchaserAgentTaskList.purchaserAgentRowBuilder(fullReturn),
-          LandTaskList.landRowBuilder(fullReturn, viewmodels.tasklist.LandTaskList.noFailures),
-          TransactionTaskList.transactionRowBuilder(fullReturn, viewmodels.tasklist.TransactionTaskList.noFailures),
+          LandTaskList.landRowBuilder(fullReturn, landStatus),
+          TransactionTaskList.transactionRowBuilder(fullReturn, transactionStatus),
           TaxCalculationTaskList.taxCalculationRowBuilder(fullReturn)
         )
 
         val conditional = Seq(
           Option.when(isResidencyRequired(fullReturn))(UkResidencyTaskList.ukResidencyRowBuilder(fullReturn)),
           Option.when(isLeaseRequired(fullReturn))(
-            LeaseTaskList.leaseRowBuilder(fullReturn, viewmodels.tasklist.LeaseTaskList.noFailures)
+            LeaseTaskList.leaseRowBuilder(fullReturn, leaseStatus)
           )
         ).flatten
 
@@ -95,6 +105,11 @@ object SubmissionTaskList {
       }
     ).build(fullReturn)
   }
+
+  private def hasFailures(landStatus: SectionStatus,
+                          transactionStatus: SectionStatus,
+                          leaseStatus: SectionStatus): Boolean =
+    landStatus.hasFailures || transactionStatus.hasFailures || leaseStatus.hasFailures
 
   def canStartSubmission(fullReturn: FullReturn): Boolean = {
     isVendorComplete(fullReturn) &&
