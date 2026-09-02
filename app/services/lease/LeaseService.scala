@@ -65,4 +65,14 @@ class LeaseService {
       )
     effectiveDate.exists(date => !date.isBefore(cutoff))
   }
+
+  def isPreviousEffectiveDateOnOrAfterAnnualRentCutOff(userAnswers: UserAnswers): Option[Boolean] = {
+    val cutoff = LocalDate.of(2016, 2, 16)
+
+    userAnswers.fullReturn
+      .flatMap(_.transaction.map(_.effectiveDate))
+      .flatten
+      .flatMap(parseDate)
+      .map(date => !date.isBefore(cutoff))
+  }
 }

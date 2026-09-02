@@ -125,12 +125,25 @@ class TransactionCheckYourAnswersController @Inject()(
       case "updateLease" =>
         userAnswers.fullReturn.flatMap(_.lease) match {
           case Some(existingLease) =>
-            val lease =
-              if (leaseService.isOnOrAfterAnnualRentCutOff(userAnswers)) {
-                existingLease.copy(isAnnualRentOver1000 = Some("no"))
-              } else {
-                existingLease
+
+            val oldDateOnOrAfterCutOff =
+              leaseService.isPreviousEffectiveDateOnOrAfterAnnualRentCutOff(userAnswers)
+
+            val newDateOnOrAfterCutOff =
+              leaseService.isOnOrAfterAnnualRentCutOff(userAnswers)
+
+            val lease = {
+              (oldDateOnOrAfterCutOff, newDateOnOrAfterCutOff) match {
+                case (_, true) =>
+                  existingLease.copy(isAnnualRentOver1000 = Some("no"))
+
+                case (Some(true), false) =>
+                  existingLease.copy(isAnnualRentOver1000 = None)
+
+                case _ =>
+                  existingLease
               }
+            }
 
             for {
               updateLeaseRequest <- UpdateLeaseRequest.from(userAnswers, lease)
