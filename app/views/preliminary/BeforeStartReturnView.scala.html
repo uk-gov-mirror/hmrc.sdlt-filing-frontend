@@ -31,13 +31,16 @@
 
     @caption(messages("site.prelim.caption"))
 
-    @h1(messages("prelim.beforeStart.heading"))
+    @h1(messages("site.beforeYouStart.heading"))
 
     @p(messages("prelim.beforeStart.p1"))
 
     @p(messages("prelim.beforeStart.p2"))
 
-    @p(messages("prelim.beforeStart.p3"))
+    <ul class="govuk-list govuk-list--bullet">
+        <li>@messages("prelim.beforeStart.li1")</li>
+        <li>@messages("prelim.beforeStart.li2")</li>
+    </ul>
 
     @govukButton(
         ButtonViewModel(messages("site.continue"))

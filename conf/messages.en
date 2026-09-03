@@ -178,11 +178,11 @@ vendor.checkYourAnswers.title                                                   
 purchaser.checkYourAnswers.title                                                    = Check your answers - About the purchaser
 
 # Preliminary Questions
-prelim.beforeStart.title                                                            = Before you start a new Stamp Tax return - Preliminary questions
-prelim.beforeStart.heading                                                          = Before you start a new Stamp Tax return
-prelim.beforeStart.p1                                                               = To start a new return, you must answer some preliminary questions.
-prelim.beforeStart.p2                                                               = Your answers will help you complete and identify your return in the future. Once completed, you can add multiple purchasers and vendors.
-prelim.beforeStart.p3                                                               = Stamp Taxes Online provides a Unique Transaction Reference Number (UTRN) upon successful submission of this return.
+prelim.beforeStart.title                                                            = Before you start - Preliminary questions
+prelim.beforeStart.p1                                                               = To start a new return, you must answer some preliminary questions. Once completed, you can add multiple purchasers and vendors.
+prelim.beforeStart.p2                                                               = When your return is successfully submitted, you will receive:
+prelim.beforeStart.li1                                                               = a Unique Transaction Reference Number (UTRN)
+prelim.beforeStart.li2                                                               = an SDLT5 certificate
 
 prelim.purchaserIsIndividual.title                                                  = Who is making the purchase? - Preliminary questions
 prelim.purchaserIsIndividual.heading                                                = Who is making the purchase?
@@ -394,7 +394,7 @@ addressLookup.landQuestionsAddress.countryPicker.heading                        
 # Vendor Messages
 vendor.beforeStart.title                                                            = Before you start - About the vendor
 vendor.beforeStart.p1                                                               = In this section, you need to tell us about the vendor selling the land or property.
-vendor.beforeStart.p2                                                               = We will ask for:
+vendor.beforeStart.p2                                                               = You will need to know:
 vendor.beforeStart.bullet1                                                          = the type of vendor
 vendor.beforeStart.bullet2                                                          = the vendor’s name
 vendor.beforeStart.bullet3                                                          = the vendor’s address
@@ -552,15 +552,16 @@ purchaser.address.link.message                                                  
 
 purchaser.beforeStart.title                                                         = Before you start - About the purchaser
 purchaser.beforeStart.p1                                                            = In this section, you need to tell us about the purchaser of the land or property.
-purchaser.beforeStart.p2                                                            = We will ask for:
+purchaser.beforeStart.p2                                                            = You will need to know:
 purchaser.beforeStart.bullet1                                                       = the purchaser’s name
 purchaser.beforeStart.bullet2                                                       = the purchaser’s address
-purchaser.beforeStart.bullet3                                                       = a valid form of ID
-purchaser.beforeStart.bullet4                                                       = the type of company
-purchaser.beforeStart.bullet5                                                       = whether they’re a trustee
-purchaser.beforeStart.bullet6                                                       = whether they’re connected to the vendor
-purchaser.beforeStart.p3                                                            = You can also provide:
-purchaser.beforeStart.bullet7                                                       = the purchaser’s phone number
+purchaser.beforeStart.bullet3                                                       = their valid form of ID
+purchaser.beforeStart.bullet4                                                       = if they’re a trustee
+purchaser.beforeStart.bullet5                                                       = if they’re connected to the vendor
+purchaser.beforeStart.p3                                                            = If relevant to this return, you must also tell us:
+purchaser.beforeStart.bullet6                                                       = the purchaser’s phone number
+purchaser.beforeStart.bullet7                                                       = the purchaser’s date of birth
+purchaser.beforeStart.bullet8                                                       = the type of company making the purchase
 
 purchaser.confirmIdentity.title                                                     = What information can you provide about {0}? - About the purchaser
 purchaser.confirmIdentity.heading                                                   = What information can you provide about {0}?
@@ -827,17 +828,17 @@ purchaserAgent.overview.error.required                                          
 purchaserAgent.overview.noPurchaser.p1                                              = There is no agent listed for the purchaser.
 
 purchaserAgent.BeforeYouStart.title                                                 = Before you start - About the purchaser’s agent
-purchaserAgent.BeforeYouStart.heading                                               = Add an agent for the purchaser
 purchaserAgent.BeforeYouStart.checkYourAnswersLabel                                 = Add an agent for the purchaser
 purchaserAgent.BeforeYouStart.error.required                                        = Select yes to add an agent for the purchaser
 purchaserAgent.BeforeYouStart.change.hidden                                         = Add an agent for the purchaser
-purchaserAgent.BeforeYouStart.p1                                                    = If the purchaser is represented by an agent, you can link an existing agent to this return. If you add a new agent, we will ask for:
+purchaserAgent.BeforeYouStart.p1                                                    = In this section, you need to tell us about the purchaser’s agent.
+purchaserAgent.BeforeYouStart.p2                                                    = You will need to know:
 purchaserAgent.BeforeYouStart.b1                                                    = the agent’s name
 purchaserAgent.BeforeYouStart.b2                                                    = the agent’s address
+purchaserAgent.BeforeYouStart.p3                                                    = If relevant to this return, you must also tell us:
 purchaserAgent.BeforeYouStart.b3                                                    = the agent’s contact details
-purchaserAgent.BeforeYouStart.p2                                                    = You can also provide:
-purchaserAgent.BeforeYouStart.b4                                                    = the agent’s reference number
-purchaserAgent.BeforeYouStart.b5                                                    = the agent’s authorisation to handle correspondence
+purchaserAgent.BeforeYouStart.b4                                                    = the reference for this return
+purchaserAgent.BeforeYouStart.b5                                                    = if the agent is authorised to handle correspondence on behalf of the purchaser
 purchaserAgent.BeforeYouStart.subheading                                            = Do you want to add an agent for the purchaser?
 
 site.error.noReturnReference.title                                                  = You cannot reach this page
@@ -927,12 +928,12 @@ purchaserIncompleteOverview.purchaser        = Purchaser {0}
 
 vendorAgent.BeforeYouStart.title                                                    = Before you start - About the vendor’s agent
 vendorAgent.BeforeYouStart.p1                                                       = In this section, you need to tell us about the vendor’s agent.
-vendorAgent.BeforeYouStart.p2                                                       = We will ask for:
+vendorAgent.BeforeYouStart.p2                                                       = You will need to know:
 vendorAgent.BeforeYouStart.bullet1                                                  = the agent’s name
 vendorAgent.BeforeYouStart.bullet2                                                  = the agent’s address
 vendorAgent.BeforeYouStart.bullet3                                                  = the agent’s contact details
 vendorAgent.BeforeYouStart.bullet4                                                  = the agent’s reference number
-vendorAgent.BeforeYouStart.p3                                                       = You can also provide:
+vendorAgent.BeforeYouStart.p3                                                       = If relevant to this return, you must also provide:
 vendorAgent.BeforeYouStart.bullet4                                                  = the agent’s reference number
 vendorAgent.BeforeYouStart.subheading                                               = Do you want to add an agent for the vendor?
 vendorAgent.BeforeYouStart.checkYourAnswersLabel                                    = Add an agent for the vendor
@@ -947,16 +948,16 @@ vendorAgent.overview.error.required                                             
 vendorAgent.overview.noVendor.p1                                                    = There is no agent listed for the vendor.
 
 land.BeforeYouStart.p1                                                              = In this section, you need to tell us about the land or property being purchased.
-land.BeforeYouStart.p2                                                              = We will ask for:
+land.BeforeYouStart.p2                                                              = You will need to know:
 land.BeforeYouStart.bullet1                                                         = the type of property
-land.BeforeYouStart.bullet2                                                         = whether an interest is being transferred or created
+land.BeforeYouStart.bullet2                                                         = if an interest is being transferred or created
 land.BeforeYouStart.bullet3                                                         = the address of the land or property
 land.BeforeYouStart.bullet4                                                         = the local authority code
-land.BeforeYouStart.bullet5                                                         = whether you’ll be sending plans by post
-land.BeforeYouStart.bullet6                                                         = any minerals or mineral rights
-land.BeforeYouStart.p3                                                              = You can also provide:
-land.BeforeYouStart.bullet7                                                         = a title or folio number
-land.BeforeYouStart.bullet8                                                         = an NLPG UPRN
+land.BeforeYouStart.bullet5                                                         = if you’ll be sending a plan of the land or property
+land.BeforeYouStart.bullet6                                                         = if any minerals or mineral rights are reserved or excluded
+land.BeforeYouStart.p3                                                              = If relevant to this return, you must also tell us:
+land.BeforeYouStart.bullet7                                                         = the title or folio number
+land.BeforeYouStart.bullet8                                                         = the NLPG UPRN
 land.BeforeYouStart.bullet9                                                         = if the transaction involves agricultural or developmental land
 land.BeforeYouStart.bullet10                                                        = the area of the land
 
@@ -1082,11 +1083,10 @@ land.landSelectMeasurementUnit.SquareMetres                                     
 land.landSelectMeasurementUnit.error.required                                       = Select one unit of measurement for the area of land
 
 ukResidency.BeforeYouStart.p1                                                       = In this section, you need to tell us about the purchaser’s residency status.
-ukResidency.BeforeYouStart.p2                                                       = We will ask for:
-ukResidency.BeforeYouStart.bullet1                                                  = if any of the purchasers are non-UK residents
-ukResidency.BeforeYouStart.bullet2                                                  = if any of the purchasers are a close company controlled by non-UK residents
-ukResidency.BeforeYouStart.p3                                                       = You can also provide:
-ukResidency.BeforeYouStart.bullet3                                                  = if purchasers are claiming Crown employment relief
+ukResidency.BeforeYouStart.p2                                                       = You will need to know if any of the purchasers are non-UK residents.
+ukResidency.BeforeYouStart.p3                                                       = If relevant to this return, you must also tell us:
+ukResidency.BeforeYouStart.bullet1                                                  = if any of the purchasers are a close company controlled by non-UK residents
+ukResidency.BeforeYouStart.bullet2                                                  = if any of the purchasers are claiming Crown employment relief
 
 land.areaOfLand.title                                                               = What is the area of land?
 land.areaOfLand.heading                                                             = What is the area of the land in {0}?
@@ -1199,26 +1199,29 @@ purchaser.purchaserCompanyTypeKnown.change.hidden                               
 
 transaction.beforeStart.title                                                       = Before you start - About the transaction
 transaction.beforeStart.p1                                                          = In this section, you need to tell us about the transaction.
-transaction.beforeStart.p2                                                          = We will ask for:
+transaction.beforeStart.p2                                                          = You will need to know:
 transaction.beforeStart.bullet1                                                     = the type of transaction
 transaction.beforeStart.bullet2                                                     = the effective date of the transaction
 transaction.beforeStart.bullet3                                                     = the total consideration in money or money’s worth
 transaction.beforeStart.bullet4                                                     = the forms of consideration
-transaction.beforeStart.bullet5                                                     = any considerations affected by uncertain future events
-transaction.beforeStart.bullet6                                                     = whether the transaction is pursuant to a previous option agreement
-transaction.beforeStart.p3                                                          = You can also provide:
-transaction.beforeStart.bullet7                                                     = the date of contract or conclusion of missives
-transaction.beforeStart.bullet8                                                     = the amount of VAT included in the total consideration
-transaction.beforeStart.bullet9                                                     = if this transaction is linked to another
-transaction.beforeStart.bullet10                                                    = the total consideration of all linked transactions
-transaction.beforeStart.bullet11                                                    = the purchaser’s eligibility and reason for claiming relief
-transaction.beforeStart.bullet12                                                    = how much partial relief the purchaser is claiming
-transaction.beforeStart.bullet13                                                    = whether the purchaser is applying for a deferment
-transaction.beforeStart.bullet14                                                    = how the land or property will be used
-transaction.beforeStart.bullet15                                                    = the details and total consideration if the transaction is part of the sale of a business
-transaction.beforeStart.bullet16                                                    = whether a CAP1 or NSBC application has been made and followed
-transaction.beforeStart.bullet17                                                    = any restrictions, covenants or conditions affecting the transaction
-transaction.beforeStart.bullet18                                                    = the address of any land or property being exchanged or part exchanged
+transaction.beforeStart.bullet5                                                     = if this transaction is linked to another
+transaction.beforeStart.bullet6                                                     = any considerations affected by uncertain future events
+transaction.beforeStart.bullet7                                                     = if the transaction is pursuant to a previous option agreement
+transaction.beforeStart.bullet8                                                     = if the purchaser is eligible to claim relief
+transaction.beforeStart.p3                                                          = If relevant to this return, you must also tell us:
+transaction.beforeStart.bullet9                                                     = the date of contract or conclusion of missives
+transaction.beforeStart.bullet10                                                     = the amount of VAT included in the total consideration
+transaction.beforeStart.bullet11                                                     = the total consideration of all linked transactions
+transaction.beforeStart.bullet12                                                    = the purchaser’s reason for claiming relief
+transaction.beforeStart.bullet13                                                    = the purchaser’s CIS registration number when claiming ‘08 – Part-exchange’
+transaction.beforeStart.bullet14                                                    = the charity’s registered number when claiming ‘20 - Charities relief’
+transaction.beforeStart.bullet15                                                    = how much partial relief the purchaser is claiming
+transaction.beforeStart.bullet16                                                    = if the purchaser is applying for a deferment
+transaction.beforeStart.bullet17                                                    = how the land or property will be used
+transaction.beforeStart.bullet18                                                    = the details and total consideration if the transaction is part of the sale of a business
+transaction.beforeStart.bullet19                                                    = if a CAP1 or NSBC application has been made and followed
+transaction.beforeStart.bullet20                                                    = any restrictions, covenants or conditions affecting the transaction
+transaction.beforeStart.bullet21                                                    = the address of any land or property being exchanged or part exchanged
 
 transaction.typeOfTransaction.title                                                 = What type of transaction is this?
 transaction.typeOfTransaction.heading                                               = What type of transaction is this?
@@ -1819,20 +1822,19 @@ transaction.transactionExercisingAnOption.error.required                        
 transaction.transactionExercisingAnOption.change.hidden                             = Transaction pursuant to a previous option agreement?
 
 lease.beforeYouStart.p1                                                             = In this section, you need to tell us about the lease on the land or property.
-lease.beforeYouStart.p2                                                             = We will ask for:
+lease.beforeYouStart.p2                                                             = You will need to know:
 lease.beforeYouStart.l1.li1                                                         = the type of lease
 lease.beforeYouStart.l1.li2                                                         = the lease start date
 lease.beforeYouStart.l1.li3                                                         = the lease end date
-lease.beforeYouStart.l1.li4                                                         = any rent-free period included in the lease
-lease.beforeYouStart.l1.li5                                                         = the annual starting rent
-lease.beforeYouStart.l1.li6                                                         = the end date for annual starting rent
-lease.beforeYouStart.l1.li7                                                         = the later rent if known
-lease.beforeYouStart.l1.li8                                                         = whether the later rent is more than £1,000
-lease.beforeYouStart.l1.li9                                                         = the net present value (NPV)
-lease.beforeYouStart.p3                                                             = You can also provide:
+lease.beforeYouStart.l1.li4                                                         = the annual starting rent
+lease.beforeYouStart.l1.li5                                                         = the end date for annual starting rent
+lease.beforeYouStart.l1.li6                                                         = the later rent if known
+lease.beforeYouStart.l1.li7                                                         = if the later rent is more than £1,000
+lease.beforeYouStart.l1.li8                                                         = the net present value (NPV)
+lease.beforeYouStart.l1.li9                                                         = the total premium payable including VAT
+lease.beforeYouStart.p3                                                             = If relevant to this return, you must also tell us:
 lease.beforeYouStart.l2.li1                                                         = the duration of the rent-free period
-lease.beforeYouStart.l2.li2                                                         = the total amount of VAT on the annual rent
-lease.beforeYouStart.l2.li3                                                         = the total premium payable including VAT
+lease.beforeYouStart.l2.li2                                                         = the total amount of VAT payable on the annual rent
 
 # Transaction Address lookup
 addressLookup.transactionQuestionsAddress.lookupPage.title                          = Find the address of the land or property being exchanged or part exchanged - About the transaction

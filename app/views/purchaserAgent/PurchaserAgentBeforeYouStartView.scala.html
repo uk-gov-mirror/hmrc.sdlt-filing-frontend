@@ -42,13 +42,14 @@
         @caption(messages("site.purchaserAgent.caption"))
         @h1(messages("site.beforeYouStart.heading"))
         @p(messages("purchaserAgent.BeforeYouStart.p1"))
+        @p(messages("purchaserAgent.BeforeYouStart.p2"))
         <ul class="govuk-list govuk-list--bullet">
             <li>@messages("purchaserAgent.BeforeYouStart.b1")</li>
             <li>@messages("purchaserAgent.BeforeYouStart.b2")</li>
-            <li>@messages("purchaserAgent.BeforeYouStart.b3")</li>
         </ul>
-        @p(messages("purchaserAgent.BeforeYouStart.p2"))
+        @p(messages("purchaserAgent.BeforeYouStart.p3"))
         <ul class="govuk-list govuk-list--bullet">
+            <li>@messages("purchaserAgent.BeforeYouStart.b3")</li>
             <li>@messages("purchaserAgent.BeforeYouStart.b4")</li>
             <li>@messages("purchaserAgent.BeforeYouStart.b5")</li>
         </ul>
@@ -57,7 +58,7 @@
         @govukRadios(
             RadiosViewModel.yesNo(
                 field = form("value"),
-                legend = LegendViewModel(messages("purchaserAgent.BeforeYouStart.subheading")).asPageHeading(size = Medium)
+                legend = LegendViewModel(messages("purchaserAgent.BeforeYouStart.subheading")).withCssClass("govuk-fieldset__legend--m"),
             )
         )
 
