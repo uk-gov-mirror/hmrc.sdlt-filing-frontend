@@ -51,6 +51,7 @@
                 field = form("value"),
                 label = LabelViewModel(messages("land.titleNumber.subheading")).asPageSubHeading()
             )
+            .withHint(HintViewModel(HtmlContent(Html(messages("land.titleNumber.hint")))))
             .withWidth(Fixed20)
             .withAutocomplete("off")
         )

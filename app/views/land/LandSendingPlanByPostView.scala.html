@@ -16,15 +16,15 @@
 
 @import views.html.components._
 @this(
-    layout: templates.Layout,
-    formHelper: FormWithCSRF,
-    govukErrorSummary: GovukErrorSummary,
-    govukRadios: GovukRadios,
-    govukButton: GovukButton,
-    h1: h1,
-    p: Paragraph,
-    caption: Caption,
-   govukDetails: GovukDetails
+        layout: templates.Layout,
+        formHelper: FormWithCSRF,
+        govukErrorSummary: GovukErrorSummary,
+        govukRadios: GovukRadios,
+        govukButton: GovukButton,
+        h1: h1,
+        p: Paragraph,
+        caption: Caption,
+        govukDetails: GovukDetails
 )
 
 @(form: Form[_], mode: Mode)(implicit request: Request[_], messages: Messages)
@@ -33,6 +33,7 @@
     @p(messages("land.landSendingPlanByPost.details.content1"))
     @p(messages("land.landSendingPlanByPost.details.content2"))
     @p(messages("land.landSendingPlanByPost.details.content3"))
+    @p(messages("land.landSendingPlanByPost.details.content4"))
 }
 
 @layout(pageTitle = title(form, messages("land.landSendingPlanByPost.title"))) {
@@ -47,9 +48,20 @@
 
           @h1(messages("land.landSendingPlanByPost.heading"))
 
-          @p(messages("land.landSendingPlanByPost.p"))
+          @p(messages("land.landSendingPlanByPost.p1"))
 
-          @govukDetails(Details(
+          <ul class="govuk-list govuk-list--bullet">
+              <li>@messages("land.landSendingPlanByPost.b1")</li>
+              <li>@messages("land.landSendingPlanByPost.b2")</li>
+              <li>@messages("land.landSendingPlanByPost.b3")</li>
+              <li>@messages("land.landSendingPlanByPost.b4")</li>
+          </ul>
+
+        @p(messages("land.landSendingPlanByPost.p2"))
+
+        @p(messages("land.landSendingPlanByPost.p3"))
+
+        @govukDetails(Details(
               summary = messages("land.landSendingPlanByPost.details.summary"),
               content = HtmlContent(detailsContent)
           ))

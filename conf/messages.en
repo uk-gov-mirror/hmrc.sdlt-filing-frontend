@@ -962,7 +962,7 @@ land.BeforeYouStart.bullet10                                                    
 
 land.landTypeOfProperty.heading                                                     = What is the type of property?
 land.landTypeOfProperty.01                                                          = 01 - Residential
-land.landTypeOfProperty.01.hintText                                                 = A building used, suitable for use, or being constructed as a dwelling, including the garden, grounds and any right of way
+land.landTypeOfProperty.01.hintText                                                 = A building used, suitable for use, or being constructed as a dwelling – including the garden, grounds and any right of way
 land.landTypeOfProperty.02                                                          = 02 - Mixed
 land.landTypeOfProperty.02.hintText                                                 = Where part of the property is residential
 land.landTypeOfProperty.03                                                          = 03 - Non-residential
@@ -971,22 +971,22 @@ land.landTypeOfProperty.04                                                      
 land.landTypeOfProperty.04.hintText                                                 = Where the purchaser owns more than one residential property at any one time
 land.landTypeOfProperty.checkYourAnswersLabel                                       = Type of property
 land.landTypeOfProperty.error.required                                              = Select the type of property
-land.landTypeOfProperty.error.crossflow                                             = Areas of land or property with lease involvement must share the same property type – if there are multiple property types, select '02 - Mixed' for all areas of land or property added
+land.landTypeOfProperty.error.crossflow                                             = Areas of land or properties with lease involvement must share the same property type – if there are multiple property types, select ‘02 - Mixed’ for all areas of land or properties added
 land.landTypeOfProperty.change.hidden                                               = Type of property
 
 land.landInterestTransferredOrCreated.title                                         = Interest transferred or created - About the land
 land.landInterestTransferredOrCreated.heading                                       = Interest transferred or created
-land.landInterestTransferredOrCreated.p1                                            = Interest is transferred when an existing interest in a property is moved from one party to another, like the transfer of freehold, beneficial rights or the assignment of an existing lease.
-land.landInterestTransferredOrCreated.p2                                            = Interest is created when a new right or share in the property is established for a new party, like the grant of a new lease, taking on a debt, or the creation of an easement such as right of way.
+land.landInterestTransferredOrCreated.p1                                            = Interest is transferred when an existing interest in a property is moved from one party to another. This includes the transfer of freehold, beneficial rights or the assignment of an existing lease.
+land.landInterestTransferredOrCreated.p2                                            = Interest is created when a new right or share in the property is established for a new party. This includes the grant of a new lease, taking on a debt or the creation of an easement, such as right of way.
 land.landInterestTransferredOrCreated.subheading                                    = Which option best describes the transaction?
 land.landInterestTransferredOrCreated.FGS                                           = FG - Freehold (in Scotland ownership) subject to one or more leases each reserving a ground or nominal rent
 land.landInterestTransferredOrCreated.FPO                                           = FP - Freehold with vacant possession
-land.landInterestTransferredOrCreated.FPO.hintText                                  = In Scotland owner’s interest with vacant possession
+land.landInterestTransferredOrCreated.FPO.hintText                                  = In Scotland, owner’s interest with vacant possession
 land.landInterestTransferredOrCreated.FTF                                           = FT - Freehold subject to a lease or tenancy
-land.landInterestTransferredOrCreated.FTF.hintText                                   = In Scotland owner’s interest subject to tenancy
+land.landInterestTransferredOrCreated.FTF.hintText                                  = In Scotland, owner’s interest subject to tenancy
 land.landInterestTransferredOrCreated.LG                                            = LG - Long leasehold at a ground or nominal rent with vacant possession
 land.landInterestTransferredOrCreated.LPT                                           = LP - A lease to an occupier or with vacant possession and not a ground rent or nominal rent
-land.landInterestTransferredOrCreated.LPT.hintText                                  = In Scotland tenant’s interest
+land.landInterestTransferredOrCreated.LPT.hintText                                  = In Scotland, tenant’s interest
 land.landInterestTransferredOrCreated.LT                                            = LT - Leasehold subject to leases to an occupier
 land.landInterestTransferredOrCreated.OT                                            = OT - All other interests
 land.landInterestTransferredOrCreated.checkYourAnswersLabel                         = Interest transferred or created
@@ -1007,9 +1007,10 @@ land.addNlpgUprn.hint                                                           
 
 land.titleNumber.title                                                              = Title number for the land or property - About the land
 land.titleNumber.heading                                                            = Title number for the land or property
-land.titleNumber.p1                                                                 = A title number is a unique identifier assigned by HM Land Registry to a registered land or property in England and Wales. This is a combination of letters and numbers, like TGL312172. You can find it on property deeds or through the HM Land Registry service
-land.titleNumber.p2                                                                 = For Northern Ireland enter the folio number. This can be a series of numbers or a combination of letters and numbers. You can find it through the ‘Find property information’ (FPI) online service or visit the Land & Property Services (LPS).
+land.titleNumber.p1                                                                 = A title number is a unique identifier assigned to every registered land or property in England and Wales. You can find it on property documents provided by the vendor or through HM Land Registry.
+land.titleNumber.p2                                                                 = A folio number is a unique identifier assigned to every registered land or property in Northern Ireland. You can find it on property documents provided by the vendor or through Land & Property Services.
 land.titleNumber.subheading                                                         = What is the title or folio number?
+land.titleNumber.hint                                                               = Both numbers start with 1 to 3 letters followed by a series of digits, like AB123456
 land.titleNumber.checkYourAnswersLabel                                              = Title or folio number
 land.titleNumber.error.required                                                     = Enter the title or folio number
 land.titleNumber.error.invalid                                                      = The title or folio number must only include letters a to z, numbers 0 to 9, brackets, dashes, hyphens, plus signs and spaces
@@ -1059,7 +1060,7 @@ land.localAuthorityCode.constraint.invalid                                      
 
 land.nlpgUprn.title                                                                 = What is the NLPG UPRN for the land or property? - About the land
 land.nlpgUprn.heading                                                               = What is the NLPG UPRN for the land or property?
-land.nlpgUprn.hint                                                                  = This number can be up to 12 digits, like 100023336956. You can find it using the FindMyAddress website (England) or the Pointer database (Northern Ireland).
+land.nlpgUprn.hint                                                                  = This number can be up to 12 digits, like 100023336956
 land.nlpgUprn.checkYourAnswersLabel                                                 = NLPG UPRN
 land.nlpgUprn.error.required                                                        = Enter the NLPG UPRN for the land or property
 land.nlpgUprn.error.length                                                          = The NLPG UPRN must be 14 characters or fewer
@@ -1067,10 +1068,11 @@ land.nlpgUprn.change.hidden                                                     
 land.nlpgUprn.error.format                                                          = The NLPG UPRN must only include numbers 0 to 9
 land.nlpgUprn.error.invalidFormat                                                   = Enter the NLPG UPRN in the correct format
 
-land.landMineralsOrMineralRights.title                                              = Minerals or mineral rights
-land.landMineralsOrMineralRights.heading                                            = Minerals or mineral rights
+land.landMineralsOrMineralRights.title                                              = Mineral rights
+land.landMineralsOrMineralRights.heading                                            = Mineral rights
 land.landMineralsOrMineralRights.subheading                                         = Are there any minerals or mineral rights reserved or excluded for the land or property?
-land.landMineralsOrMineralRights.p                                                  = Mineral rights are the legal entitlement to exploit, mine or produce minerals and other natural resources beneath the land or property. When mineral rights are reserved or excluded, the owner of the land or property has no claim to any minerals or other natural resources beneath the land.
+land.landMineralsOrMineralRights.p1                                                 = Mineral rights allow the purchaser to extract and exploit minerals beneath the land or property – like gas, oil or coal.
+land.landMineralsOrMineralRights.p2                                                 = When mineral rights are reserved or excluded, the vendor retains these rights. This means the purchaser owns the land or property but has no claim on the minerals below the surface.
 land.landMineralsOrMineralRights.checkYourAnswersLabel                              = Minerals or mineral rights reserved or excluded?
 land.landMineralsOrMineralRights.error.required                                     = Select yes if there are minerals or mineral rights reserved or excluded for the land or property
 land.landMineralsOrMineralRights.change.hidden                                      = Minerals or mineral rights reserved or excluded?
@@ -1098,24 +1100,31 @@ land.areaOfLand.error.invalidChars                                              
 land.areaOfLand.error.invalidFormat.Hectares                                        = Enter the area of land to 3 decimal places
 land.areaOfLand.error.invalidFormat.SquareMetres                                    = Enter the area of land in whole numbers
 land.areaOfLand.change.hidden                                                       = Area of land
-land.areaOfLand.hint.SquareMetres                                                   = Enter the measurement in whole numbers
+land.areaOfLand.hint.SquareMetres                                                   = Enter the measurement as a whole number
 land.areaOfLand.hint.Hectares                                                       = Enter the measurement to 3 decimal places
 land.areaOfLand.SquareMetres.suffix                                                 = m²
 land.areaOfLand.Hectares.suffix                                                     = ha
 land.areaOfLand.SquareMetres                                                        = square metres
 land.areaOfLand.Hectares                                                            = hectares
 
-land.landSendingPlanByPost.title                                                    = Sending a plan by post - About the land
-land.landSendingPlanByPost.heading                                                  = Sending a plan by post
-land.landSendingPlanByPost.subheading                                               = Will you be sending a plan by post?
+land.landSendingPlanByPost.title                                                    = Sending a plan - About the land
+land.landSendingPlanByPost.heading                                                  = Sending a plan
+land.landSendingPlanByPost.subheading                                               = Will you be sending a plan?
 land.landSendingPlanByPost.checkYourAnswersLabel                                    = Will you be sending a plan?
-land.landSendingPlanByPost.error.required                                           = Select yes if you will be sending a plan by post
+land.landSendingPlanByPost.error.required                                           = Select yes if you will be sending a plan
 land.landSendingPlanByPost.change.hidden                                            = Will you be sending a plan?
 land.landSendingPlanByPost.details.summary                                          = Sending your plan by post
-land.landSendingPlanByPost.details.content1                                         = The plan should indicate the scale used or be endorsed as ‘Not to Scale’. It must also show the return’s reference number, a description of the land and the local authority code.
-land.landSendingPlanByPost.details.content2                                         = Send the land or property plan to:
-land.landSendingPlanByPost.details.content3                                         = BT Stamp Duty Land Tax<br>HM Revenue and Customs<br>BX9 1LT
-land.landSendingPlanByPost.p                                                        = A plan is required for all transactions involving land that does not have a postal address or where a boundary needs defining.
+land.landSendingPlanByPost.details.content1                                         = In Northern Ireland, send the plan to:
+land.landSendingPlanByPost.details.content2                                         = Land Registry – Land & Property Services<br>Lanyon Plaza<br>7 Lanyon Place<br>Town Parks<br>Belfast<br>BT1 3LP
+land.landSendingPlanByPost.details.content3                                         = In England, send the plan to:
+land.landSendingPlanByPost.details.content4                                         = BT Stamp Duty Land Tax<br>HM Revenue and Customs<br>BX9 1LT
+land.landSendingPlanByPost.p1                                                       = You must send a plan for all transactions involving land that does not have a postal address or where a boundary needs defining. The plan must include:
+land.landSendingPlanByPost.b1                                                       = the scale shown on the map, or endorse the plan as ‘Not to Scale’
+land.landSendingPlanByPost.b2                                                       = a description of the land
+land.landSendingPlanByPost.b3                                                       = the UTRN
+land.landSendingPlanByPost.b4                                                       = the local authority code
+land.landSendingPlanByPost.p2                                                       = You can send a plan by post or email.
+land.landSendingPlanByPost.p3                                                       = In England, HMRC recommends you email the plan to <a href="mailto:SDLT@voa.gov.uk" class="govuk-link">SDLT@voa.gov.uk</a>.<br>In Northern Ireland, you must send the plan by post.
 
 land.agriculturalOrDevelopmental.title                                              = Agricultural or developmental land
 land.agriculturalOrDevelopmental.heading                                            = Agricultural or developmental land
@@ -1864,7 +1873,7 @@ transaction.address.change.hidden                                               
 lease.typeOfLease.title                                                             = What is the type of lease?
 lease.typeOfLease.heading                                                           = What is the type of lease?
 lease.typeOfLease.R                                                                 = R - Residential
-lease.typeOfLease.R.hintText                                                        = A building used, suitable for use, or being constructed as a dwelling, including the garden, grounds and any right of way
+lease.typeOfLease.R.hintText                                                        = A building used, suitable for use, or being constructed as a dwelling – including the garden, grounds and any right of way
 lease.typeOfLease.N                                                                 = N - Non-residential
 lease.typeOfLease.N.hintText                                                        = Where the whole property is non-residential
 lease.typeOfLease.M                                                                 = M - Mixed use

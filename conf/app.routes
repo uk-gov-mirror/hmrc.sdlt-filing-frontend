@@ -342,10 +342,10 @@ POST        /about-the-land/enter-NLPG-UPRN                                     
 GET         /about-the-land/enter-NLPG-UPRN/change                                                   controllers.land.LandNlpgUprnController.onPageLoad(mode: Mode = CheckMode)
 POST        /about-the-land/enter-NLPG-UPRN/change                                                   controllers.land.LandNlpgUprnController.onSubmit(mode: Mode = CheckMode)
 
-GET         /about-the-land/minerals-or-mineral-rights                                               controllers.land.LandMineralsOrMineralRightsController.onPageLoad(mode: Mode = NormalMode)
-POST        /about-the-land/minerals-or-mineral-rights                                               controllers.land.LandMineralsOrMineralRightsController.onSubmit(mode: Mode = NormalMode)
-GET         /about-the-land/minerals-or-mineral-rights/change                                        controllers.land.LandMineralsOrMineralRightsController.onPageLoad(mode: Mode = CheckMode)
-POST        /about-the-land/minerals-or-mineral-rights/change                                        controllers.land.LandMineralsOrMineralRightsController.onSubmit(mode: Mode = CheckMode)
+GET         /about-the-land/mineral-rights                                                           controllers.land.LandMineralsOrMineralRightsController.onPageLoad(mode: Mode = NormalMode)
+POST        /about-the-land/mineral-rights                                                           controllers.land.LandMineralsOrMineralRightsController.onSubmit(mode: Mode = NormalMode)
+GET         /about-the-land/mineral-rights/change                                                    controllers.land.LandMineralsOrMineralRightsController.onPageLoad(mode: Mode = CheckMode)
+POST        /about-the-land/mineral-rights/change                                                    controllers.land.LandMineralsOrMineralRightsController.onSubmit(mode: Mode = CheckMode)
 
 GET         /about-the-land/unit-of-measurement                                                      controllers.land.LandSelectMeasurementUnitController.onPageLoad(mode: Mode = NormalMode)
 POST        /about-the-land/unit-of-measurement                                                      controllers.land.LandSelectMeasurementUnitController.onSubmit(mode: Mode = NormalMode)
@@ -359,10 +359,10 @@ POST        /about-the-land/enter-area-of-land                                  
 GET         /about-the-land/enter-area-of-land/change                                                controllers.land.AreaOfLandController.onPageLoad(mode: Mode = CheckMode)
 POST        /about-the-land/enter-area-of-land/change                                                controllers.land.AreaOfLandController.onSubmit(mode: Mode = CheckMode)
 
-GET         /about-the-land/sending-plan-by-post                                                     controllers.land.LandSendingPlanByPostController.onPageLoad(mode: Mode = NormalMode)
-POST        /about-the-land/sending-plan-by-post                                                     controllers.land.LandSendingPlanByPostController.onSubmit(mode: Mode = NormalMode)
-GET         /about-the-land/sending-plan-by-post/change                                              controllers.land.LandSendingPlanByPostController.onPageLoad(mode: Mode = CheckMode)
-POST        /about-the-land/sending-plan-by-post/change                                              controllers.land.LandSendingPlanByPostController.onSubmit(mode: Mode = CheckMode)
+GET         /about-the-land/sending-a-plan                                                           controllers.land.LandSendingPlanByPostController.onPageLoad(mode: Mode = NormalMode)
+POST        /about-the-land/sending-a-plan                                                           controllers.land.LandSendingPlanByPostController.onSubmit(mode: Mode = NormalMode)
+GET         /about-the-land/sending-a-plan/change                                                    controllers.land.LandSendingPlanByPostController.onPageLoad(mode: Mode = CheckMode)
+POST        /about-the-land/sending-a-plan/change                                                    controllers.land.LandSendingPlanByPostController.onSubmit(mode: Mode = CheckMode)
 
 GET         /about-the-land/agricultural-or-developmental-land                                       controllers.land.AgriculturalOrDevelopmentalLandController.onPageLoad(mode: Mode = NormalMode)
 POST        /about-the-land/agricultural-or-developmental-land                                       controllers.land.AgriculturalOrDevelopmentalLandController.onSubmit(mode: Mode = NormalMode)
