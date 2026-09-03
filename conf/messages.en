@@ -1234,11 +1234,11 @@ transaction.transactionEffectiveDate.p                                          
 transaction.transactionEffectiveDate.hint                                           = For example, 27 3 2023
 transaction.transactionEffectiveDate.checkYourAnswersLabel                          = Effective date of the transaction
 transaction.transactionEffectiveDate.error.required.all                             = Enter the effective date of the transaction
-transaction.transactionEffectiveDate.error.required.two                             = The effective date of transaction must include {0} and {1}
+transaction.transactionEffectiveDate.error.required.two                             = The effective date of the transaction must include a {0} and {1}
 transaction.transactionEffectiveDate.error.required                                 = The effective date of the transaction must include a {0}
 transaction.transactionEffectiveDate.error.invalid                                  = The effective date of the transaction must be a real date
 transaction.transactionEffectiveDate.change.hidden                                  = Effective date of the transaction
-transaction.transactionEffectiveDate.error.date.range.min                           = The effective date of transaction must be the same as or after 1 11 2003
+transaction.transactionEffectiveDate.error.date.range.min                           = The effective date of the transaction must be the same as or after 1 November 2003
 transaction.transactionEffectiveDate.error.date.range.max                           = The effective date of the transaction cannot be in the future
 transaction.transactionEffectiveDate.missing                                        = Provide Effective Date
 
@@ -1293,11 +1293,11 @@ transaction.transactionDateOfContract.heading                                   
 transaction.transactionDateOfContract.hint                                          = For example, 27 3 2023
 transaction.transactionDateOfContract.checkYourAnswersLabel                         = Date of contract or conclusion of missives
 transaction.transactionDateOfContract.error.required.all                            = Enter the date of contract
-transaction.transactionDateOfContract.error.required.two                            = The date of contract must include {0} and {1}
-transaction.transactionDateOfContract.error.required                                = The date of contract must include {0}
+transaction.transactionDateOfContract.error.required.two                            = The date of contract must include a {0} and {1}
+transaction.transactionDateOfContract.error.required                                = The date of contract must include a {0}
 transaction.transactionDateOfContract.error.invalid                                 = The date of contract must be a real date
 transaction.transactionDateOfContract.change.hidden                                 = Date of contract or conclusion of missives
-transaction.transactionDateOfContract.error.date.range.min                          = The date of contract must be the same as or after 01 01 1900
+transaction.transactionDateOfContract.error.date.range.min                          = The date of contract must be the same as or after 1 January 1900
 transaction.transactionDateOfContract.error.date.range.max                          = The date of contract cannot be in the future
 
 transaction.totalConsiderationOfTransaction.title                                   = Total consideration of the transaction
@@ -1412,7 +1412,7 @@ transaction.ReasonForRelief.38                                                  
 transaction.isPurchaserRegisteredWithCIS.title                                      = Is the purchaser registered with the Construction Industry Scheme (CIS)?
 transaction.isPurchaserRegisteredWithCIS.heading                                    = Is the purchaser registered with the Construction Industry Scheme (CIS)?
 transaction.isPurchaserRegisteredWithCIS.checkYourAnswersLabel                      = Is the purchaser registered with the Construction Industry Scheme (CIS)?
-transaction.isPurchaserRegisteredWithCIS.error.required                             = Select yes if the purchaser is registered with the Construction Industry Scheme (CIS)?
+transaction.isPurchaserRegisteredWithCIS.error.required                             = Select yes if the purchaser is registered with the Construction Industry Scheme (CIS)
 transaction.isPurchaserRegisteredWithCIS.change.hidden                              = Is the purchaser registered with the Construction Industry Scheme (CIS)?
 
 transaction.totalConsiderationOfLinkedTransaction.title                             = Total consideration of all linked transactions
