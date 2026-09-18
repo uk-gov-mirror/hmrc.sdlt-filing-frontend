@@ -1183,8 +1183,11 @@ ukResidency.crownEmploymentRelief.change.hidden                                 
 
 ukResidency.closeCompany.title                                                      = Close companies
 ukResidency.closeCompany.heading                                                    = Close companies
-ukResidency.closeCompany.subheading                                                 = Are any of the purchasers a UK resident close company controlled directly or non-directly by non-UK residents?
-ukResidency.closeCompany.p1                                                         = A close company is broadly defined as a company controlled by five or fewer participators (usually shareholders), or where any number of directors are also shareholders. If the company is controlled by non-UK residents, then it will be treated as a non-UK resident for the purposes of SDLT.
+ukResidency.closeCompany.subheading                                                 = Are any of the purchasers a UK resident close company controlled directly or indirectly by non-UK residents?
+ukResidency.closeCompany.p1                                                         = A close company is broadly defined as:
+ukResidency.closeCompany.b1                                                         = a company controlled by five or fewer participators (usually shareholders)
+ukResidency.closeCompany.b2                                                         = a company where any number of directors are also shareholders
+ukResidency.closeCompany.p2                                                         = If a company is controlled by non-UK residents, it’s treated as a non-UK resident company.
 ukResidency.closeCompany.checkYourAnswersLabel                                      = Are any of the purchasers a UK resident close company controlled directly or indirectly by non-UK residents?
 ukResidency.closeCompany.error.required                                             = Select yes if any of the purchasers are a UK resident close company controlled directly or non-directly by non-UK residents
 ukResidency.closeCompany.change.hidden                                              = Are any of the purchasers a UK resident close company controlled directly or indirectly by non-UK residents?

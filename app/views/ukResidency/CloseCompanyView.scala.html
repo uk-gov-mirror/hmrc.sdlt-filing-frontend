@@ -41,6 +41,11 @@
         @h1(messages("ukResidency.closeCompany.heading"))
 
         @p(messages("ukResidency.closeCompany.p1"))
+        <ul class="govuk-list govuk-list--bullet">
+            <li>@messages("ukResidency.closeCompany.b1")</li>
+            <li>@messages("ukResidency.closeCompany.b2")</li>
+        </ul>
+        @p(messages("ukResidency.closeCompany.p2"))
 
         @govukRadios(
             RadiosViewModel(
