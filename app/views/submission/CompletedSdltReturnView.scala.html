@@ -65,7 +65,7 @@
 
 @defining(if (submissionState == Submitted || submissionState == SubmittedNoReceipt) "submitted" else "completed") { submittedKey =>
 
-    @layout(pageTitle = titleNoForm(messages(s"submission.completedSdltReturn.$submittedKey.title"), section = Some(messages("site.submission.caption"))), showBackLink = false) {
+    @layout(pageTitle = titleNoForm(messages(s"submission.completedSdltReturn.$submittedKey.title"), section = Some(messages("site.submission.caption")))) {
 
         @h1(messages(s"submission.completedSdltReturn.$submittedKey.heading"))
 
